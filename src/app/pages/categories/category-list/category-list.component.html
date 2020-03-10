@@ -1,0 +1,112 @@
+<nav class="mb-4">
+    <ol class="breadcrumb" style="background-color: #eed4e7;">
+        <li class="breadcrumb-item">
+            <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active">
+            Pendentes
+        </li>
+    </ol>
+</nav>
+
+<div class="row mb-4">
+    <div class="col-md">
+        <h1 class="h2 border-left pl-2">
+            Pendentes
+        </h1>    
+    </div>
+    <div class="col">
+        <button [disabled]="this.selected.length == 0" type="button" (click)="printSelecteds()" class="ui-button-raised ui-button-info float-right mr-3" pButton icon="pi pi-external-link" label="Gerar/Imprimir"></button>
+        <button pButton routerLink="new" type="button" label="+ Novo Pedido" class="ui-button-raised ui-button-success float-right mr-3"></button>
+    </div>
+</div>
+<div class="ml-3 mr-3">
+    <p-table #dt [columns]="cols" [value]="pendencies" [(selection)]="selected" dataKey="id" 
+                [paginator]="true" [rows]="10" [autoLayout]="true">
+        <ng-template pTemplate="caption">
+            <div style="text-align: right">        
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Filtrar..." (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th style="width: 3em">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+                <th>AÇÕES</th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td>
+                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                </td>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                    <div *ngSwitchCase="'id'">
+                        <span *ngIf="rowData.id">{{rowData[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'nome'">
+                        <span *ngIf="rowData.nome">{{rowData[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'codigo'">
+                        <span *ngIf="rowData.codigo">{{rowData[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'cordobanho'">
+                        <span *ngIf="rowData.cordobanho">{{rowData[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'created'">
+                        <span *ngIf="rowData.created">{{rowData[col.field] | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                    </div>
+                    <div *ngSwitchCase="'modified'">
+                        <span *ngIf="rowData.modified">{{rowData[col.field] | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                    </div>
+                    <div *ngSwitchCase="'status'">
+                        <span *ngIf="rowData.created">{{rowData[col.field] ? "ENTREGUE" : "PENDENTE"}}</span>
+                    </div>
+                </td>
+                <td class="actions-column">
+                    <p-button type="button" icon="pi pi-pencil" class="mr-2" title="Editar" (click)="editPendency(rowData.id)" styleClass="ui-button-info" ></p-button>
+                    <p-button type="button" icon="pi pi-trash" class="mr-2" title="Excluir" (click)="deletePendency(rowData)" styleClass="ui-button-danger"></p-button>
+                    <p-button type="button" icon="pi pi-print" title="Excluir" (click)="showDialog(rowData)" styleClass="ui-button-warning"></p-button>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table >
+</div>
+<p-dialog header="Pedidos" [(visible)]="displayBasic2" [style]="{width: '80vw'}" [baseZIndex]="10000">
+    <div id="idOfDivToPrint" class="row">
+        <div *ngFor="let item of printContent; let i = index" class="column" 
+        style="float: left; width: 49%;
+        font-size: 13px;
+    border: 1px solid black;
+    margin: 1.5px">
+         <div style="padding-left: 10px;">
+            <span style="font-size: 15px;"><strong>Peça: {{item.custom_piece.nome}}</strong></span><br>
+            <span><strong>Consultor(a):</strong> {{item.nome}}</span><br>
+            <span><img style="width: 110px; height: 100px; float: right;margin-bottom: 35px;  border-radius: 10px;
+                "
+                [src]="'http://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+item.custom_piece.photo">
+            </span>
+            <span><strong>Tipo:</strong> {{item.custom_piece.tipo}}</span><br>
+            <span><strong>Código:</strong> {{item.custom_piece.codigo}}</span><br>
+            <span><strong>Banho:</strong> {{item.cordobanho}}</span><br>
+            <span><strong>Valor: </strong> R$ {{item.custom_piece.valor}}</span><br>
+            <span><strong>Data do Pedido:</strong> {{item.created | date: 'dd/MM/yyyy'}}</span><br>
+            <span><strong>Data do Entrega:</strong> {{(item.created) | date: 'dd/MM/yyyy'}}</span><br>
+            <span ><strong>Descrição:</strong> {{item.descricao}}</span><br>
+         </div>
+        </div>
+        <button (click)="captureScreen()">make pdf</button>
+    </div>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="print()" label="Imprimir"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="displayBasic2=false" label="Sair" class="ui-button-secondary"></button>
+        </p-footer>
+</p-dialog>

@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+/* FileUpload */
+.ui-fileupload .ui-fileupload-buttonbar {
+    background-color:  #ffffff !important;
+    padding: 0.571em 1em;
+    border: none !important;
+    color: #ffffff !important;
+    border-bottom: 0 none;
+}
+.ui-fileupload .ui-fileupload-content {
+    background-color: #ffffff;
+    padding: 0.571em 1em;
+    border: none !important;
+    color: #333333;
+}
+.current-window {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 50px;
+    z-index: 1000000;
+  }
+  @media print {
+  .campos{
+    font-size: 9px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(200, 200, 202);
+    margin-bottom: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+  }
