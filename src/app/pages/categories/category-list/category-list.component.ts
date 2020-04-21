@@ -90,7 +90,7 @@ export class CategoryListComponent implements OnInit {
       let heightLeft = imgHeight;  
 
       const contentDataURL = canvas.toDataURL('image/png')  
-      let pdf = new jspdf('l', 'mm', [390, 691]);  
+      let pdf = new jspdf('l', 'mm', [196, 545]);  
       let position = 0;  
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
       pdf.save('MYPdf.pdf'); // Generated PDF   
