@@ -5,7 +5,6 @@ import { FilterUtils } from '../../pieces/shared/utils/filterutils';
 import { SortEvent } from 'primeng/api/sortevent';
 import { Router } from '@angular/router';
 import { NgxPrinterService } from 'ngx-printer';
-import { PrintComponent } from '../print/print.component';
 
 
 import * as jspdf from 'jspdf';  
@@ -29,7 +28,7 @@ export class CategoryListComponent implements OnInit {
   @ViewChild('PrintTemplate',{ static:false})
   private PrintTemplateTpl: TemplateRef<any>
 
-  @ViewChild(PrintComponent, { static:false})read: ElementRef;
+  @ViewChild(CategoryListComponent, { static:false})read: ElementRef;
   PrintComponent: ElementRef;
 
   pendencies: Pendency[] = [];
@@ -41,6 +40,7 @@ export class CategoryListComponent implements OnInit {
   resume:any;
 
   node = document.getElementById('my-node');
+  capturedImage: any;
 
 
   constructor(private categoryService: PendencyService, 
@@ -79,8 +79,10 @@ export class CategoryListComponent implements OnInit {
   public captureScreen()  
   {  
     var data = document.getElementById('idOfDivToPrint');  //Id of the table
-    html2canvas(data, {letterRendering: 1, allowTaint: false, useCORS: true, })
+    html2canvas(data, {letterRendering: 1, useCORS: true, })
       .then(canvas => {  
+        this.capturedImage = canvas.toDataURL();
+
       // Few necessary setting options  
       let imgWidth = 390;   
       let pageHeight = 691;    
