@@ -82,11 +82,11 @@
 </div>
 <p-dialog header="Pedidos" [(visible)]="displayBasic2" [style]="{width: '80vw'}" [baseZIndex]="10000">
     <div id="idOfDivToPrint" class="row">
-        <div *ngFor="let item of printContent; let i = index" class="column" 
+        <div *ngFor="let item of printContent; let i = index" class="column watermarked" 
         style="float: left; width: 49%;
         font-size: 13px;
         border: 1px solid black;
-        margin: 1.5px; background-image: url('/src/assets/logoDourada.png');">
+        margin: 1.5px;">
          <div style="padding-left: 10px;">
             <span style="font-size: 15px;"><strong>Peça: {{item.custom_piece.nome}}</strong></span><br>
             <span><strong>Consultor(a):</strong> {{item.nome}}</span><br>

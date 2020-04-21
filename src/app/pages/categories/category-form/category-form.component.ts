@@ -97,7 +97,9 @@ export class CategoryFormComponent implements OnInit {
     if (value === data) {
         this.matchID = this.customPiece[index].id;
         this.photo = this.customPiece[index].photo;
-        this.valor = this.customPiece[index].valor;
+        this.pendencyForm.controls['valor'].setValue(
+          this.customPiece[index].valor
+        ); 
         this.tipo = this.customPiece[index].tipo;
         this.photoShow = true;
         break;
@@ -120,6 +122,7 @@ export class CategoryFormComponent implements OnInit {
       custom_piece_id: [null,Validators.required],
       descricao: [null, [Validators.required, Validators.minLength(5)]],
       cordobanho: [null, [Validators.required]],
+      valor: [null, [Validators.required]],
       status: [false, [Validators.required]],
       obs: [null],
     })
@@ -134,7 +137,6 @@ export class CategoryFormComponent implements OnInit {
       .subscribe(
         (pendency) => {
           this.pendency = pendency[0];
-          this.valor = pendency[0].custom_piece.valor;
           this.tipo = pendency[0].custom_piece.tipo;
           this.matchID = pendency[0].custom_piece_id;
           this.photo = pendency[0].custom_piece.photo;
@@ -146,6 +148,7 @@ export class CategoryFormComponent implements OnInit {
             descricao: pendency[0].descricao,
             cordobanho: pendency[0].cordobanho,
             status: pendency[0].status,
+            valor:pendency[0].valor,
             obs: pendency[0].obs}
           ) // binds loaded pendency data to pendencyForm
         },
