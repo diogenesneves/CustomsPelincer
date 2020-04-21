@@ -1,5 +1,5 @@
 <nav class="mb-4">
-    <ol class="breadcrumb" style="background-color: #eed4e7;">
+    <ol class="breadcrumb" style="background-color: #b0eeec;">
         <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
         <li class="breadcrumb-item"><a routerLink="/pendencies">Pendentes</a></li>
         <li class="breadcrumb-item active">{{pageTitle}}</li>
@@ -35,7 +35,7 @@
                         </ng-template>
                     </p-autoComplete>
                 </div>
-                <div class="col-md-2 mb-2" *ngIf="photoShow">
+                <div class="col-md-3 mb-2" *ngIf="photoShow">
                     <img class="rounded imagePreview" [src]="'http://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+photo">
                 </div>
                 <div class="form-group col-md-3 mt-4" *ngIf="photoShow">
@@ -53,7 +53,7 @@
                             <div class="imput-group-prepend">
                                 <div class="input-group-text">R$</div>
                             </div>
-                            <input type="text" value="{{valor}},00" readonly>
+                            <input type="text" value="{{valor}}">
                         </div>
                     </div>
                 <div class="row col-md-12"></div>
