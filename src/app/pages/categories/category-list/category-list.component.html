@@ -81,7 +81,7 @@
     </p-table >
 </div>
 <p-dialog header="Pedidos" [(visible)]="displayBasic2" [style]="{width: '80vw'}" [baseZIndex]="10000">
-    <div id="idOfDivToPrint" class="row">
+    <div id="idOfDivToPrint" class="row" customClass="watermarked" >
         <div *ngFor="let item of printContent; let i = index" class="column watermarked" 
         style="float: left; width: 49%;
         font-size: 13px;

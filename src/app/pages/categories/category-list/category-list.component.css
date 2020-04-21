@@ -4,9 +4,10 @@
     background-color: aquamarine;
 }
 .watermarked {
-    position: relative;
-  }
+  position: relative;
+}
   
+<<<<<<< HEAD
   .watermarked:after {
     content: "";
     display: block;
@@ -21,3 +22,24 @@
     background-repeat: no-repeat;
     opacity: 0.3;
   }
+=======
+.watermarked:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-image: url("/assets/logoDourada.png")  !important;
+  background-size: 100px 100px;
+  background-position: 30px 30px;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+}
+
+* {
+  -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
+  color-adjust: exact !important;                 /*Firefox*/
+}
+>>>>>>> da5d2eb17cf96507410682051171cd0f55fe7cf2
