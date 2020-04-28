@@ -5,6 +5,6 @@ export class Pendency{
         public descricao?: string,
         public corDoBanho?: string,
         public foto?: string,
-        public status?: boolean
+        public status?: string
     ){}
 }

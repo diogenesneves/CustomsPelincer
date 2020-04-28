@@ -123,7 +123,7 @@ export class CategoryFormComponent implements OnInit {
       descricao: [null, [Validators.required, Validators.minLength(5)]],
       cordobanho: [null, [Validators.required]],
       valor: [null, [Validators.required]],
-      status: [false, [Validators.required]],
+      status: ['Aberto', [Validators.required]],
       obs: [null],
     })
   }

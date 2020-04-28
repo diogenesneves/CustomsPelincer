@@ -7,12 +7,12 @@
 </nav>
 
 <div class="row mb-4">
-    <div class="col-md">
+    <div class="col-md-9">
         <h1 class="h2 border-left pl-2">
             {{pageTitle}}
         </h1>    
     </div>
-    <div class="col">
+    <div class="col-md-3">
         <a routerLink="/pendencies" class="btn btn-light float-right"> << Voltar</a>
     </div>
 </div>
@@ -41,9 +41,6 @@
                 <div class="form-group col-md-3 mt-4" *ngIf="photoShow">
                     <label for="name">Tipo</label>
                     <div class="input-group">
-                        <div class="imput-group-prepend">
-                            <div class="input-group-text"><i class="pi pi-heart" style="font-size: 1.5em"></i></div>
-                        </div>
                         <input type="text" value="{{tipo}}" readonly>
                     </div>
                 </div>
@@ -53,7 +50,7 @@
                             <div class="imput-group-prepend">
                                 <div class="input-group-text">R$</div>
                             </div>
-                            <input type="text" d="valor" formControlName="valor">
+                            <input [imask]="imaskConfig" type="text" id="valor" formControlName="valor">
                         </div>
                     </div>
                 <div class="row col-md-12"></div>
@@ -77,8 +74,9 @@
                 <div class="form-group col-md-2">
                 <label for="status">Status</label>
                 <select name="status" id="status" class="form-control" formControlName="status">
-                    <option value=false>Pendente</option>
-                    <option value=true>Entregue</option>
+                    <option value='Aberto'>Aberto</option>
+                    <option value='Pendente'>Pendente</option>
+                    <option value='Entregue'>Entregue</option>
                 </select>
                 </div>
 

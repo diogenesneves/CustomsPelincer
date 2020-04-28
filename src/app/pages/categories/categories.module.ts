@@ -20,11 +20,12 @@ import {IMaskModule} from 'angular-imask';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SearchPipe } from 'src/app/shared/shared/search.pipe';
 import { PrintComponent } from './print/print.component';
+import { CategoryListStatusComponent } from './category-list-status/category-list-status.component';
 
 
 
 @NgModule({
-  declarations: [CategoryListComponent, CategoryFormComponent, PrintComponent],
+  declarations: [CategoryListComponent, CategoryFormComponent, PrintComponent, CategoryListStatusComponent],
   imports: [
     CommonModule,
     CategoriesRoutingModule,

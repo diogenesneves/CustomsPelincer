@@ -3,24 +3,23 @@ import { PendencyService } from '../shared/pendency.service';
 import { Pendency } from '../shared/pendency.model';
 import { FilterUtils } from '../../pieces/shared/utils/filterutils';
 import { SortEvent } from 'primeng/api/sortevent';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgxPrinterService } from 'ngx-printer';
 
 
 import * as jspdf from 'jspdf';  
 import html2canvas from 'html2canvas'; 
-import { filter } from 'rxjs/operators';
 
 // import pdfMake from 'pdfmake/build/pdfmake';
 // import pdfFonts from 'pdfmake/build/vfs_fonts';
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-category-list',
-  templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.css']
+  selector: 'app-category-list-status',
+  templateUrl: './category-list-status.component.html',
+  styleUrls: ['./category-list-status.component.css']
 })
-export class CategoryListComponent implements OnInit {
+export class CategoryListStatusComponent implements OnInit {
 
   @ViewChild('screen', { static:true}) screen: ElementRef;
   @ViewChild('canvas', { static:true}) canvas: ElementRef;
@@ -29,7 +28,7 @@ export class CategoryListComponent implements OnInit {
   @ViewChild('PrintTemplate',{ static:false})
   private PrintTemplateTpl: TemplateRef<any>
 
-  @ViewChild(CategoryListComponent, { static:false})read: ElementRef;
+  @ViewChild(CategoryListStatusComponent, { static:false})read: ElementRef;
   PrintComponent: ElementRef;
 
   pendencies: Pendency[] = [];
@@ -49,9 +48,8 @@ export class CategoryListComponent implements OnInit {
 
   constructor(private categoryService: PendencyService, 
               private router: Router, 
-              private printerService: NgxPrinterService,
-              private route: ActivatedRoute,
-              ) {}
+              private printerService: NgxPrinterService) 
+              { }
 
   ngOnInit() {
     this.cols = [
@@ -73,20 +71,13 @@ export class CategoryListComponent implements OnInit {
     }
     
     return parseInt(filter) > value;
-} 
-this.categoryService.getAll().subscribe(
-  pendencies => this.pendencies = pendencies.sort((a,b)=> b.id - a.id),
-  error => alert('Erro ao carregar a lista' )).add( () =>{
-    if(this.route.snapshot.url[0] == undefined) 
-      this.pendencies = this.pendencies.filter(e => e.status == 'Aberto')
-    else if(this.route.snapshot.url[0].path == "pendente")
-      this.pendencies = this.pendencies.filter(e => e.status == "Pendente")
-    else if(this.route.snapshot.url[0].path == "entregue")
-      this.pendencies = this.pendencies.filter(e => e.status == "Entregue")
-    }
-   ) 
+}
+    this.categoryService.getAll().subscribe(
+      pendencies => this.pendencies = pendencies.sort((a,b)=> b.id - a.id),
+      error => alert('Erro ao carregar a lista' )
+    )
+    
   }
-  
 
   public captureScreen(){  
     var data = document.getElementById('idOfDivToPrint');  //Id of the table
@@ -170,3 +161,4 @@ this.categoryService.getAll().subscribe(
 }
 
 }
+
