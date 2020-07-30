@@ -15,8 +15,8 @@
           <a class="dropdown-toggle custom" data-toggle="dropdown">Pedidos</a>
           <div class="dropdown-menu">
               <a class="dropdown-item" routerLink="/pendencies">Aberto</a>
-              <a class="dropdown-item" routerLink="/pendencies/pendente">Ag. Fornecedor</a>
-              <a class="dropdown-item" routerLink="/pendencies/entregue">Entregue</a>
+              <a *ngIf="user.username == 'Administrador'" class="dropdown-item" routerLink="/pendencies/pendente">Ag. Fornecedor</a>
+              <a *ngIf="user.username == 'Administrador'" class="dropdown-item" routerLink="/pendencies/entregue">Entregue</a>
           </div>
       </div>
       </li>

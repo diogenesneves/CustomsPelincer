@@ -16,3 +16,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+.btn {
+    background-color: #e9ecef;
+    color: black;
+}

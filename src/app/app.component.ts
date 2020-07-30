@@ -6,10 +6,13 @@ import { LoginService } from './pages/login/shared/login.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'customs';
+  user
   constructor(private loginService: LoginService
     ){
+      this.logedIn();
   }
   logout(){
     this.loginService.logout();
@@ -17,6 +20,7 @@ export class AppComponent {
   logedIn(){
     if (localStorage.getItem('currentUser')) {
       // logged in so return true
+      this.user = JSON.parse(localStorage.getItem('currentUser'));
       return true;
     }
   }
