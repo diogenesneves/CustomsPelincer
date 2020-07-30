@@ -11,6 +11,8 @@ import {LightboxModule} from 'primeng/lightbox';
 import {TableModule} from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import {DialogModule} from 'primeng/dialog';
+import {ToastModule} from 'primeng/toast';
+
 
 
 
@@ -35,13 +37,14 @@ import { CategoryListStatusComponent } from './category-list-status/category-lis
     FormsModule,
     LightboxModule,
     TableModule,
+    ToastModule,
     DropdownModule,
     IMaskModule,
     DialogModule,
 
   ],
   providers: [
-    SearchPipe
+    SearchPipe,
   ]
 })
 export class CategoriesModule { }

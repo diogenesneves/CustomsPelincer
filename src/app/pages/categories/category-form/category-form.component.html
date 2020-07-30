@@ -16,7 +16,6 @@
         <a routerLink="/pendencies" class="btn btn-light float-right"> << Voltar</a>
     </div>
 </div>
-
 <form [formGroup]="pendencyForm" (submit)="submitForm()">
     <div class="card">
         <div class="card-header">
@@ -93,3 +92,6 @@
     </button>
 
 </form>
+<p-toast position="top-center" [style]="{marginTop: '80px'}"></p-toast>
+
+

@@ -6,6 +6,7 @@ import { Pendency } from '../shared/pendency.model'
 import {PendencyService} from '../shared/pendency.service'
 
 import { switchMap } from 'rxjs/operators'
+import {MessageService} from 'primeng/api';
 
 import toastr from "toastr"
 import { PieceService } from '../../pieces/shared/piece.service';
@@ -13,7 +14,9 @@ import { PieceService } from '../../pieces/shared/piece.service';
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.css']
+  styleUrls: ['./category-form.component.css',],
+  providers: [MessageService]
+
 })
 export class CategoryFormComponent implements OnInit {
 
@@ -60,7 +63,8 @@ export class CategoryFormComponent implements OnInit {
     private pieceService: PieceService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
@@ -80,8 +84,7 @@ export class CategoryFormComponent implements OnInit {
     else
       this.updatePendency();
   }
-  filterPieces(event) {
-    console.log(this.customPiece, "piece")
+  filterPieces(event:any) {
     this.filteredPieces = [];
     for(let i = 0; i < this.customPiece.length; i++) {
         let piece = this.customPiece[i].nome;
@@ -195,16 +198,31 @@ export class CategoryFormComponent implements OnInit {
     )
   }
 
-  private actionsForSucess(pendency: Pendency){
-    toastr.success("Solicitação processada com sucesso!");
-
-
+  private actionsForSucess(pendency: any){
+//    toastr.success("Solicitação processada com sucesso!");
+this.addSingle()
 
     // REDIRECT/RELOAD COMPONENT PAGE
-    this.router.navigateByUrl("pendencies", {skipLocationChange: true}).then(
-      () => this.router.navigate(['pendencies', pendency.id, 'edit'])
-    )
+    // setTimeout(() => {
+    //   this.router.navigateByUrl("pendencies", {skipLocationChange: true}).then(
+    //     () => this.router.navigate(['pendencies', pendency.data, 'edit'])
+    //   )
+    // }, 1000);
+
   }
+
+addSingle() {
+    this.messageService.add({severity:'success', summary:'Serviço de Mensagem', detail:'Editado com sucesso!'});
+}
+
+addMultiple() {
+    this.messageService.addAll([{severity:'success', summary:'Service Message', detail:'Via MessageService'},
+                                {severity:'info', summary:'Info Message', detail:'Via MessageService'}]);
+}
+
+clear() {
+    this.messageService.clear();
+}
 
   private actionsForError(error){
     toastr.error('Ocorreu um erro ao processar a sua solicitação!')

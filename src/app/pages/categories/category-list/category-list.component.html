@@ -4,7 +4,7 @@
             <a routerLink="/">Home</a>
         </li>
         <li class="breadcrumb-item active">
-            Pendentes
+            {{title}}
         </li>
     </ol>
 </nav>
@@ -12,12 +12,12 @@
 <div class="row mb-4">
     <div class="col-md">
         <h1 class="h2 border-left pl-2">
-            Pendentes
+            {{title}}
         </h1>    
     </div>
     <div class="col">
         <button [disabled]="this.selected.length == 0" type="button" (click)="printSelecteds()" class="ui-button-raised ui-button-info float-right mr-3" pButton icon="pi pi-external-link" label="Gerar/Imprimir"></button>
-        <button pButton routerLink="new" type="button" label="+ Novo Pedido" class="ui-button-raised ui-button-success float-right mr-3"></button>
+        <button *ngIf="show" pButton routerLink="new" type="button" label="+ Novo Pedido" class="ui-button-raised ui-button-success float-right mr-3"></button>
     </div>
 </div>
 <div class="ml-3 mr-3">
