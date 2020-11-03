@@ -29,6 +29,8 @@ export class PieceListComponent implements OnInit {
         { field: 'id', header: 'ID' },
         { field: 'nome', header: 'NOME' },
         { field: 'codigo', header: 'CÓDIGO' },
+        { field: 'modelo', header: 'MODELO' },
+        { field: 'tamanho', header: 'TAMANHO' },
         { field: 'valor', header: 'VALOR' },
         { field: 'tipo', header: 'TIPO' },
         { field: 'created', header: 'CRIADO' },

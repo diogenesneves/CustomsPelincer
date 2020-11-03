@@ -56,6 +56,10 @@ export class CategoryFormComponent implements OnInit {
   matchID: string = "";
   valor:string ="";
   tipo:string ="";
+  codigo:string ="";
+  peso:string ="";
+  tamanho:string ="";
+  modelo:string ="";
   nomePeca: string;
   
   constructor(
@@ -103,7 +107,14 @@ export class CategoryFormComponent implements OnInit {
         this.pendencyForm.controls['valor'].setValue(
           this.customPiece[index].valor
         ); 
+        this.pendencyForm.controls['valor_banho'].setValue(
+          this.customPiece[index].valor_banho
+        ); 
         this.tipo = this.customPiece[index].tipo;
+        this.codigo = this.customPiece[index].codigo;
+        this.peso = this.customPiece[index].peso;
+        this.tamanho = this.customPiece[index].tamanho;
+        this.modelo = this.customPiece[index].modelo;
         this.photoShow = true;
         break;
       }
@@ -128,6 +139,9 @@ export class CategoryFormComponent implements OnInit {
       valor: [null, [Validators.required]],
       status: ['Aberto', [Validators.required]],
       obs: [null],
+      peso: [null],
+      categoria: [null],
+      valor_banho: [null],
     })
   }
 
@@ -141,6 +155,10 @@ export class CategoryFormComponent implements OnInit {
         (pendency) => {
           this.pendency = pendency[0];
           this.tipo = pendency[0].custom_piece.tipo;
+          this.codigo = pendency[0].custom_piece.codigo;
+          this.peso = pendency[0].custom_piece.peso;
+          this.tamanho = pendency[0].custom_piece.tamanho;
+          this.modelo = pendency[0].custom_piece.modelo;
           this.matchID = pendency[0].custom_piece_id;
           this.photo = pendency[0].custom_piece.photo;
           this.photoShow = true;
@@ -152,6 +170,7 @@ export class CategoryFormComponent implements OnInit {
             cordobanho: pendency[0].cordobanho,
             status: pendency[0].status,
             valor:pendency[0].valor,
+            valor_banho:pendency[0].valor_banho,
             obs: pendency[0].obs}
           ) // binds loaded pendency data to pendencyForm
         },
@@ -182,7 +201,7 @@ export class CategoryFormComponent implements OnInit {
 
     this.pendencyService.create(pendency)
       .subscribe( 
-        pendency => this.actionsForSucess(pendency),
+        pendency => this.actionsForSucess('new'),
         error => this.actionsForError(error)
       )
   }
@@ -193,14 +212,14 @@ export class CategoryFormComponent implements OnInit {
 
     this.pendencyService.update(pendency)
     .subscribe( 
-      pendency => this.actionsForSucess(pendency),
+      pendency => this.actionsForSucess('edit'),
       error => this.actionsForError(error)
     )
   }
 
-  private actionsForSucess(pendency: any){
+  private actionsForSucess(type:any){
 //    toastr.success("Solicitação processada com sucesso!");
-this.addSingle()
+  this.addSingle(type)
 
     // REDIRECT/RELOAD COMPONENT PAGE
     // setTimeout(() => {
@@ -211,7 +230,10 @@ this.addSingle()
 
   }
 
-addSingle() {
+addSingle(type:any) {
+  if(type === 'new'){
+   return this.messageService.add({severity:'success', summary:'Serviço de Mensagem', detail:'Salvo com sucesso!'});
+  }
     this.messageService.add({severity:'success', summary:'Serviço de Mensagem', detail:'Editado com sucesso!'});
 }
 

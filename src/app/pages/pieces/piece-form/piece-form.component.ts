@@ -108,10 +108,15 @@ export class PieceFormComponent implements OnInit {
       nome: [null, [Validators.required, Validators.minLength(5)]],
       codigo: [null, [Validators.required, Validators.minLength(5)]],
       valor: [null, [Validators.required]],
-      tipo: [null, [Validators.required]],
+      tipo: ['Semi Jóia', [Validators.required]],
       photo: [null],
       status: [true, [Validators.required]],
-      obs: ['']
+      obs: [''],
+      peso: [null],
+      modelo: ['Padrão'],
+      categoria: [null],
+      tamanho: ['Normal'],
+      valor_banho: [null]
 
     })
   }
@@ -154,6 +159,11 @@ export class PieceFormComponent implements OnInit {
       formData.append("photo", this.pieceForm.get('photo').value);
       formData.append("status", this.pieceForm.get('status').value);
       formData.append("obs", this.pieceForm.get('obs').value);
+      formData.append("peso", this.pieceForm.get('peso').value);
+      formData.append("categoria", this.pieceForm.get('categoria').value);
+      formData.append("modelo", this.pieceForm.get('modelo').value);
+      formData.append("tamanho", this.pieceForm.get('tamanho').value);
+      formData.append("valor_banho", this.pieceForm.get('valor_banho').value);
       return formData;
   }
 

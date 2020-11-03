@@ -1,7 +1,7 @@
 <nav class="mb-4">
     <ol class="breadcrumb" style="background-color: #b0eeec;">
         <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/pieces">Lista dePeças</a></li>
+        <li class="breadcrumb-item"><a routerLink="/pieces">Peças</a></li>
         <li class="breadcrumb-item active">{{pageTitle}}</li>
     </ol>
 </nav>
@@ -40,29 +40,70 @@
                         </p-fileUpload>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label for="name">Nome</label>
                     <input type="text" class="form-control" id="nome" formControlName="nome">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="name">Código</label>
                     <input type="text" class="form-control" id="codigo" formControlName="codigo">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-1">
+                    <label for="name">Peso (g)</label>
+                    <input type="text" class="form-control" id="peso" formControlName="peso">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="tamanho">Tamanho</label>
+                    <select name="tamanho" id="tamanho" class="form-control" formControlName="tamanho">
+                        <option value="Micro">Micro</option>
+                        <option value="Mini">Mini</option>
+                        <option value="Normal">Normal</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1">
                     <label for="tipo">Tipo</label>
                     <select name="tipo" id="tipo" class="form-control" formControlName="tipo">
-                        <option value="Semi Jóia">Semi Joia</option>
+                        <option value="Semi Jóia">Semi Jóia</option>
                         <option value="Ouro">Ouro</option>
-                        <option value="Prta">Prata</option>
+                        <option value="Prata">Prata</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="modelo">Modelo</label>
+                    <select name="modelo" id="modelo" class="form-control" formControlName="modelo">
+                        <option value="Padrão">Padrão</option>
+                        <option value="Simples">Simples</option>
+                        <option value="Dupla">Dupla</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="name">Valor</label>
+                    <label for="categoria">Categoria</label>
+                    <select name="categroai" id="categoria" class="form-control" formControlName="categoria">
+                        <option value="Anel">Anel</option>
+                        <option value="Brinco">Brinco</option>
+                        <option value="Colar">Colar</option>
+                        <option value="Diversos">Diversos</option>
+                        <option value="Inox">Inox</option>
+                        <option value="Mandala">Mandala</option>
+                        <option value="Pulseira">Pulseira</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="name">Valor Bruto</label>
                     <div class="input-group">
                         <div class="imput-group-prepend">
                             <div class="input-group-text">R$</div>
                         </div>
                         <input type="text" [imask]="imaskConfig" class="form-control" id="valor" formControlName="valor">
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="name">Valor Banhado</label>
+                    <div class="input-group">
+                        <div class="imput-group-prepend">
+                            <div class="input-group-text">R$</div>
+                        </div>
+                        <input type="text" [imask]="imaskConfig" class="form-control" id="valor_banho" formControlName="valor_banho">
                     </div>
                 </div>
                 <div class="form-group col-md-2">
@@ -72,7 +113,7 @@
                     <option value="false">Inativo</option>
                 </select>
                 </div>
-                <div class="form-group col-md-8">
+                <div class="form-group col-md-6">
                     <label for="name">Obs:</label>
                     <input type="text" class="form-control" id="obs" formControlName="obs">
                 </div>

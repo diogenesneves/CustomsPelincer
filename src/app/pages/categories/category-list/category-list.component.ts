@@ -84,7 +84,7 @@ export class CategoryListComponent implements OnInit {
           this.pendencies = this.pendencies.filter(e => e.status == 'Aberto')
         }
         else if (this.route.snapshot.url[0].path == "pendente") {
-          this.title = "Pendente";
+          this.title = "Ag. Fornecedor";
           this.pendencies = this.pendencies.filter(e => e.status == "Pendente")
         }
         else if (this.route.snapshot.url[0].path == "entregue") {
