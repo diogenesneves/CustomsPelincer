@@ -28,10 +28,10 @@ export class PieceListComponent implements OnInit {
     this.cols = [
         { field: 'id', header: 'ID' },
         { field: 'nome', header: 'NOME' },
-        { field: 'codigo', header: 'CÓDIGO' },
         { field: 'modelo', header: 'MODELO' },
         { field: 'tamanho', header: 'TAMANHO' },
-        { field: 'valor', header: 'VALOR' },
+        { field: 'valor_bruto', header: 'VALOR BRUTO' },
+        { field: 'valor_banho', header: 'VALOR BANHO' },
         { field: 'tipo', header: 'TIPO' },
         { field: 'created', header: 'CRIADO' },
         { field: 'modified', header: 'MODIFICADO' },

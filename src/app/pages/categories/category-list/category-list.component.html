@@ -55,7 +55,19 @@
                         <span *ngIf="rowData.nome">{{rowData[col.field]}}</span>
                     </div>
                     <div *ngSwitchCase="'codigo'">
-                        <span *ngIf="rowData.codigo">{{rowData[col.field]}}</span>
+                        <span *ngIf="rowData.custom_piece.codigo">{{rowData.custom_piece[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'modelo'">
+                        <span *ngIf="rowData.custom_piece.modelo">{{rowData.custom_piece[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'tamanho'">
+                        <span *ngIf="rowData.custom_piece.tamanho">{{rowData.custom_piece[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'valor'">
+                        <span *ngIf="rowData.valor">{{rowData[col.field]}}</span>
+                    </div>
+                    <div *ngSwitchCase="'tipo'">
+                        <span *ngIf="rowData.custom_piece.tipo">{{rowData.custom_piece[col.field]}}</span>
                     </div>
                     <div *ngSwitchCase="'cordobanho'">
                         <span *ngIf="rowData.cordobanho">{{rowData[col.field]}}</span>

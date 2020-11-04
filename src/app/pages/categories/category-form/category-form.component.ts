@@ -10,6 +10,7 @@ import {MessageService} from 'primeng/api';
 
 import toastr from "toastr"
 import { PieceService } from '../../pieces/shared/piece.service';
+import { Piece } from '../../pieces/shared/piece.model';
 
 @Component({
   selector: 'app-category-form',
@@ -104,8 +105,8 @@ export class CategoryFormComponent implements OnInit {
     if (value === data) {
         this.matchID = this.customPiece[index].id;
         this.photo = this.customPiece[index].photo;
-        this.pendencyForm.controls['valor'].setValue(
-          this.customPiece[index].valor
+        this.pendencyForm.controls['valor_bruto'].setValue(
+          this.customPiece[index].valor_bruto
         ); 
         this.pendencyForm.controls['valor_banho'].setValue(
           this.customPiece[index].valor_banho
@@ -137,6 +138,7 @@ export class CategoryFormComponent implements OnInit {
       descricao: [null, [Validators.required, Validators.minLength(5)]],
       cordobanho: [null, [Validators.required]],
       valor: [null, [Validators.required]],
+      valor_bruto: [null, [Validators.required]],
       status: ['Aberto', [Validators.required]],
       obs: [null],
       peso: [null],
@@ -153,6 +155,22 @@ export class CategoryFormComponent implements OnInit {
       )
       .subscribe(
         (pendency) => {
+          this.pieceService.getById(pendency[0].custom_piece_id).subscribe(
+            (piece: any) => {
+              this.pendencyForm.patchValue(
+                {id: pendency[0].id,
+                nome: pendency[0].nome,
+                custom_piece_id: pendency[0].custom_piece.nome,
+                descricao: pendency[0].descricao,
+                cordobanho: pendency[0].cordobanho,
+                status: pendency[0].status,
+                valor:pendency[0].valor,
+                valor_banho:piece.valor_banho,
+                valor_bruto:piece.valor_bruto,
+                obs: pendency[0].obs}
+              ) // binds loaded pendency data to pendencyForm
+            }
+          )
           this.pendency = pendency[0];
           this.tipo = pendency[0].custom_piece.tipo;
           this.codigo = pendency[0].custom_piece.codigo;
@@ -162,17 +180,6 @@ export class CategoryFormComponent implements OnInit {
           this.matchID = pendency[0].custom_piece_id;
           this.photo = pendency[0].custom_piece.photo;
           this.photoShow = true;
-          this.pendencyForm.patchValue(
-            {id: pendency[0].id,
-            nome: pendency[0].nome,
-            custom_piece_id: pendency[0].custom_piece.nome,
-            descricao: pendency[0].descricao,
-            cordobanho: pendency[0].cordobanho,
-            status: pendency[0].status,
-            valor:pendency[0].valor,
-            valor_banho:pendency[0].valor_banho,
-            obs: pendency[0].obs}
-          ) // binds loaded pendency data to pendencyForm
         },
         (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
       )

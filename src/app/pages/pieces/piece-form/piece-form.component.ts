@@ -107,7 +107,7 @@ export class PieceFormComponent implements OnInit {
       id: [null],
       nome: [null, [Validators.required, Validators.minLength(5)]],
       codigo: [null, [Validators.required, Validators.minLength(5)]],
-      valor: [null, [Validators.required]],
+      valor_bruto: [null, [Validators.required]],
       tipo: ['Semi Jóia', [Validators.required]],
       photo: [null],
       status: [true, [Validators.required]],
@@ -154,7 +154,7 @@ export class PieceFormComponent implements OnInit {
      var formData: any = new FormData();
       formData.append("nome", this.pieceForm.get('nome').value);
       formData.append("codigo", this.pieceForm.get('codigo').value);
-      formData.append("valor", this.pieceForm.get('valor').value);
+      formData.append("valor_bruto", this.pieceForm.get('valor_bruto').value);
       formData.append("tipo", this.pieceForm.get('tipo').value);
       formData.append("photo", this.pieceForm.get('photo').value);
       formData.append("status", this.pieceForm.get('status').value);

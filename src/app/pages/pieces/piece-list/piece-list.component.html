@@ -44,17 +44,17 @@
                 <div *ngSwitchCase="'nome'">
                     <span *ngIf="rowData.nome">{{rowData[col.field]}}</span>
                 </div>
-                <div *ngSwitchCase="'codigo'">
-                    <span *ngIf="rowData.codigo">{{rowData[col.field]}}</span>
-                </div>
                 <div *ngSwitchCase="'modelo'">
                     <span *ngIf="rowData.modelo">{{rowData[col.field]}}</span>
                 </div>
                 <div *ngSwitchCase="'tamanho'">
                     <span *ngIf="rowData.tamanho">{{rowData[col.field]}}</span>
                 </div>
-                <div *ngSwitchCase="'valor'">
-                    <span *ngIf="rowData.valor">{{rowData[col.field]}}</span>
+                <div *ngSwitchCase="'valor_bruto'">
+                    <span *ngIf="rowData.valor_bruto">{{rowData[col.field]}}</span>
+                </div>
+                <div *ngSwitchCase="'valor_banho'">
+                    <span *ngIf="rowData.valor_banho">{{rowData[col.field]}}</span>
                 </div>
                 <div *ngSwitchCase="'tipo'">
                     <span *ngIf="rowData.tipo">{{rowData[col.field]}}</span>

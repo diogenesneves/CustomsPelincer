@@ -56,8 +56,12 @@ export class CategoryListComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'id', header: 'ID' },
       { field: 'nome', header: 'NOME' },
+      { field: 'codigo', header: 'CÓDIGO' },
+      { field: 'modelo', header: 'MODELO' },
+      { field: 'tamanho', header: 'TAMANHO' },
+      { field: 'valor', header: 'VALOR' },
+      { field: 'tipo', header: 'TIPO' },
       { field: 'cordobanho', header: 'Cor' },
       { field: 'created', header: 'CRIADO' },
       { field: 'modified', header: 'MODIFICADO' },
