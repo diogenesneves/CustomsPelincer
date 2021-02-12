@@ -41,8 +41,31 @@ export class PendencyService {
   }
 
   update(pendency: Pendency): Observable<Pendency>{
-    console.log("oi")
     const url = `${this.apiPath}${'edit'}/${pendency.id}.json`;
+     return this.http.put(url, pendency).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToPendency)
+     )
+  }
+
+  pay(pendency: Pendency): Observable<Pendency>{
+    const url = `${this.apiPath}${'pay'}/${pendency.id}.json`;
+     return this.http.put(url, pendency).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToPendency)
+     )
+  }
+
+  delivery(pendency: Pendency): Observable<Pendency>{
+    const url = `${this.apiPath}${'delivery'}/${pendency.id}.json`;
+     return this.http.put(url, pendency).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToPendency)
+     )
+  }
+
+  pendency(pendency: Pendency): Observable<Pendency>{
+    const url = `${this.apiPath}${'pendency'}/${pendency.id}.json`;
      return this.http.put(url, pendency).pipe(
       catchError(this.handleError),
       map(this.jsonDataToPendency)

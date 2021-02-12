@@ -11,6 +11,7 @@ import {MessageService} from 'primeng/api';
 import toastr from "toastr"
 import { PieceService } from '../../pieces/shared/piece.service';
 import { Piece } from '../../pieces/shared/piece.model';
+import { ClientService } from '../../clients/shared/client.service';
 
 @Component({
   selector: 'app-category-form',
@@ -49,11 +50,15 @@ export class CategoryFormComponent implements OnInit {
   submittingForm: boolean =false;
   pendency: Pendency = new Pendency();
   customPiece: any[] = [];
+  customClient: any[] = [];
   photo: string = "";
   photoShow: boolean = false;
   images: any[];
   filteredPieces: any[];
+  filteredClients: any[];
   piece: string;
+  client: any = "";
+  clientID: any = "";
   matchID: string = "";
   valor:string ="";
   tipo:string ="";
@@ -62,11 +67,13 @@ export class CategoryFormComponent implements OnInit {
   tamanho:string ="";
   modelo:string ="";
   nomePeca: string;
+  pago: boolean = false;
   
   constructor(
     private pendencyService: PendencyService,
-    private pieceService: PieceService,
     private route: ActivatedRoute,
+    private pieceService: PieceService,
+    private clientService: ClientService,
     private router: Router,
     private formBuilder: FormBuilder,
     private messageService: MessageService
@@ -77,6 +84,7 @@ export class CategoryFormComponent implements OnInit {
     this.buildPendencyForm();
     this.loadPendency();
     this.loadPiece();
+    this.loadClient();
   }
   ngAfterContentChecked(): void {
     this.setPageTitle();
@@ -91,12 +99,25 @@ export class CategoryFormComponent implements OnInit {
   }
   filterPieces(event:any) {
     this.filteredPieces = [];
+    const val = event.query.toLowerCase();
+
     for(let i = 0; i < this.customPiece.length; i++) {
         let piece = this.customPiece[i].nome;
-        if(piece.toLowerCase().indexOf(event.query.toLowerCase()) == 0) {
+        if(piece.toLowerCase().indexOf(val) !== -1 || !val) {
             this.filteredPieces.push(piece);
         }
     }
+  }
+  filterClients(event:any) {
+    this.filteredClients = [];
+    const val = event.query.toLowerCase();
+
+    for(let i = 0; i < this.customClient.length; i++) {
+      let client = this.customClient[i];
+      if(client.nome.toLowerCase().indexOf(val) !== -1 || !val) {
+          this.filteredClients.push(client.nome);
+      }
+  }
   }
   matchId(data){
     var index,value;
@@ -121,6 +142,16 @@ export class CategoryFormComponent implements OnInit {
       }
     }
   }
+  matchClient(data){
+    var index,value;
+    for (index = 0; index < this.customClient.length; ++index) {
+      value = this.customClient[index].nome;
+    if (value === data) {
+          this.clientID = this.customClient[index].id
+        break;
+      }
+    }
+  }
   // PRIVATE METHODS
 
   private setCurrentAction() {
@@ -133,23 +164,25 @@ export class CategoryFormComponent implements OnInit {
   private buildPendencyForm() {
     this.pendencyForm = this.formBuilder.group({
       id: [null],
-      nome: [null, [Validators.required, Validators.minLength(5)]],
+      cliente_id: [null,Validators.required],
       custom_piece_id: [null,Validators.required],
-      descricao: [null, [Validators.required, Validators.minLength(5)]],
+      descricao: [null, [Validators.required, Validators.minLength(1)]],
       cordobanho: [null, [Validators.required]],
       valor: [null, [Validators.required]],
       valor_bruto: [null, [Validators.required]],
       status: ['Aberto', [Validators.required]],
+      pago: ['Pendente'],
       obs: [null],
       peso: [null],
       categoria: [null],
+      entrega: [null],
       valor_banho: [null],
     })
   }
 
   private loadPendency() {
     if(this.currentAction == "edit"){
-
+      this.pago = true;
       this.route.paramMap.pipe(
         switchMap(params => this.pendencyService.getById(+params.get("id")))
       )
@@ -157,14 +190,17 @@ export class CategoryFormComponent implements OnInit {
         (pendency) => {
           this.pieceService.getById(pendency[0].custom_piece_id).subscribe(
             (piece: any) => {
+              this.clientID = pendency[0].cliente.id;
               this.pendencyForm.patchValue(
                 {id: pendency[0].id,
-                nome: pendency[0].nome,
+                cliente_id: pendency[0].cliente.nome,
                 custom_piece_id: pendency[0].custom_piece.nome,
                 descricao: pendency[0].descricao,
                 cordobanho: pendency[0].cordobanho,
                 status: pendency[0].status,
+                entrega: pendency[0].entrega,
                 valor:pendency[0].valor,
+                pago:pendency[0].pago,
                 valor_banho:piece.valor_banho,
                 valor_bruto:piece.valor_bruto,
                 obs: pendency[0].obs}
@@ -192,11 +228,18 @@ export class CategoryFormComponent implements OnInit {
     )
   }
 
+  private loadClient() {
+    this.clientService.getAll().subscribe(
+      clients => this.customClient = clients,
+      error => alert('Erro ao carregar a lista')
+    )
+  }
+
   private setPageTitle() {
     if(this.currentAction == 'new')
       this.pageTitle = 'Cadastro de Novo Pedido'
     else{
-      const pendencyNome = this.pendency.nome || ''
+      const pendencyNome = this.pendency.id || '';
       this.pageTitle = 'Editando Pedido: '+ pendencyNome;
     }
   }
@@ -204,8 +247,8 @@ export class CategoryFormComponent implements OnInit {
   private createPendency(){
     // SET CUSTOM PIECE ID IN FORM VALUE
     this.pendencyForm.value.custom_piece_id = this.matchID;
+    this.pendencyForm.value.cliente_id = this.clientID;
     const pendency: Pendency = Object.assign(new Pendency(), this.pendencyForm.value)
-
     this.pendencyService.create(pendency)
       .subscribe( 
         pendency => this.actionsForSucess('new'),
@@ -215,8 +258,8 @@ export class CategoryFormComponent implements OnInit {
 
   private updatePendency(){
     this.pendencyForm.value.custom_piece_id = this.matchID;
+    this.pendencyForm.value.cliente_id = this.clientID;
     const pendency: Pendency = Object.assign(new Pendency(), this.pendencyForm.value);
-
     this.pendencyService.update(pendency)
     .subscribe( 
       pendency => this.actionsForSucess('edit'),

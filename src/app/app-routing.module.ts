@@ -10,6 +10,7 @@ const routes: Routes = [
   children: [
     { path: 'pendencies', loadChildren: './pages/categories/categories.module#CategoriesModule'},
     { path: 'pieces', loadChildren: './pages/pieces/pieces.module#PiecesModule'},
+    { path: 'clients', loadChildren: './pages/clients/clients.module#ClientsModule'},
   ]},
   { path: 'login', loadChildren: './pages/login/login.module#LoginModule'},
 

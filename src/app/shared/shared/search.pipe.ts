@@ -10,8 +10,10 @@ export class SearchPipe implements PipeTransform {
       return value;
     }
     return value.filter((val) => {
+      console.log(val)
       let rVal = (val.codigo.toLocaleLowerCase().includes(args)) 
       || (val.nome.toLocaleLowerCase().includes(args))
+      || (val.cliente.nome.toLocaleLowerCase().includes(args))
       || (val.valor.toLocaleLowerCase().includes(args));
       return rVal;
     })

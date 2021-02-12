@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -34,6 +34,7 @@ import { JwtInterceptor } from './guards/jwt.interceptor';
 
     //HttpClientInMemoryWebApiModule.forRoot(InMemoryDatabase)
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     LoginService,
     AuthGuard,

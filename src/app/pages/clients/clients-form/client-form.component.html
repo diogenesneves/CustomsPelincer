@@ -1,0 +1,68 @@
+<nav class="mb-4">
+    <ol class="breadcrumb" style="background-color: #b0eeec;">
+        <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/pieces">Peças</a></li>
+        <li class="breadcrumb-item active">{{pageTitle}}</li>
+    </ol>
+</nav>
+
+<div class="row mb-4">
+    <div class="col-md">
+        <h1 class="h2 border-left pl-2">
+            {{pageTitle}}
+        </h1>    
+    </div>
+    <div class="col">
+        <a routerLink="/clients" class="btn btn-light float-right"> << Voltar</a>
+    </div>
+</div>
+
+<form [formGroup]="pieceForm" (submit)="submitForm()">
+    <div class="card">
+        <div class="card-header">
+            Informações do Cliente
+        </div>
+        <div class="card-body">
+            <div class="form-row p-grid ui-fluid">
+                <div class="form-group col-md-4">
+                    <label for="name">Nome</label>
+                    <input type="text" class="form-control" id="nome" formControlName="nome">
+                </div>
+                <div class="form-group col-md-2 p-field">
+                    <label for="celular">Celular</label>
+                    <p-inputMask mask="99-99999-9999" class="cel" id="celular" formControlName="celular" ></p-inputMask>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="name">Endereço</label>
+                    <input type="text" class="form-control" id="endereco" formControlName="endereco">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="tipo">Atendente</label>
+                    <select name="tipo" id="atendente" class="form-control" formControlName="atendente">
+                        <option value="Julia">Julia</option>
+                        <option value="Michele">Michele</option>
+                        <option value="Yuri">Yuri</option>
+                        <option value="Ruti">Ruti</option>
+                        <option value="Escritório">Escritório</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-1">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="form-control" formControlName="status">
+                    <option value="true">Ativo</option>
+                    <option value="false">Inativo</option>
+                </select>
+                </div>
+                <div class="form-group col-md-9">
+                    <label for="name">Obs:</label>
+                    <input type="text" class="form-control" id="obs" formControlName="obs">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button [disabled]="submittingForm || pieceForm.invalid" type="submit" class="btn btn-primary btn-lg float-right mt-3 mb-5">
+        Salvar
+    </button>
+
+</form>

@@ -13,16 +13,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import {DialogModule} from 'primeng/dialog';
 import {ToastModule} from 'primeng/toast';
 
-
-
-
 import {IMaskModule} from 'angular-imask';
-
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SearchPipe } from 'src/app/shared/shared/search.pipe';
 import { PrintComponent } from './print/print.component';
 import { CategoryListStatusComponent } from './category-list-status/category-list-status.component';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 
 
@@ -37,6 +34,7 @@ import { CategoryListStatusComponent } from './category-list-status/category-lis
     FormsModule,
     LightboxModule,
     TableModule,
+    InputNumberModule,
     ToastModule,
     DropdownModule,
     IMaskModule,

@@ -94,12 +94,20 @@
                 </div>
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label for="name">Nome revendedor(a)</label>
-                <input type="text" class="form-control" id="nome" formControlName="nome">
+            <div class="form-row p-grid ui-fluid">
+              <div class="form-group col-md-4">
+                <label for="nome" class="mr-2">Selecione um(a) cliente</label>
+                <p-autoComplete [(ngModel)]="client" [suggestions]="filteredClients" (onSelect)="matchClient(client)"
+                  (completeMethod)="filterClients($event)" [size]="30" [minLength]="1"
+                  placeholder="Digite para pesquisar..." [dropdown]="true" formControlName="cliente_id">
+                  <ng-template let-client pTemplate="item">
+                    <div class="ui-helper-clearfix"  style="border-bottom:1px solid #D5D5D5">
+                      <div style="font-size:18px;float:left;margin:10px 10px 0 0">{{client}}</div>
+                    </div>
+                  </ng-template>
+                </p-autoComplete>
               </div>
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-8">
                 <label for="name">Descrição</label>
                 <input type="text" class="form-control" id="descricao" formControlName="descricao">
               </div>
@@ -120,7 +128,15 @@
                   <option value='Entregue'>Entregue</option>
                 </select>
               </div>
-              <div class="form-group col-md-4" *ngIf="photoShow">
+              <div *ngIf="pago" class="form-group col-md-1">
+                <label for="pago">Pago</label>
+                <select name="pago" id="pago" class="form-control" formControlName="pago">
+                  <option value='Pago'>Pago</option>
+                  <option value='Pendente'>Pendente</option>
+                  <option value='Cancelado'>Cancelado</option>
+                </select>
+              </div>
+              <div class="form-group col-md-4">
                 <label for="name">Valor a ser Cobrado</label>
                 <div class="input-group">
                   <div class="imput-group-prepend">
@@ -128,6 +144,11 @@
                   </div>
                   <input [imask]="imaskConfig" type="text" id="valor" formControlName="valor">
                 </div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="name">Previsão de entrega</label>
+                <p-inputNumber id="entrega" formControlName="entrega" prefix="Previsão de entrega para " suffix=" dias utéis">
+                </p-inputNumber>
               </div>
               <div class="form-group col-md-12">
                 <label for="name">Obs:</label>

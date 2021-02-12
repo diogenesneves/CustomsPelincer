@@ -1,0 +1,13 @@
+.ui-fileupload-content {
+    border: 0 none;
+}
+.imagePreview{
+    width: 150px;
+    height: 150px;
+}
+.cel {
+    display: block !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.72 !important;
+}

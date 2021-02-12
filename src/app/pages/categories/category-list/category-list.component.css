@@ -5,6 +5,7 @@
 }
 .watermarked {
   position: relative;
+  z-index: 1000000;
 }
 .test{
   float: left; width: 47.8%;
@@ -14,6 +15,7 @@
 }
   
 .watermarked:after {
+  margin-top: 20px;
   content: "";
   display: block;
   width: 100%;
@@ -27,9 +29,24 @@
   background-position: 200px 30px;
   background-repeat: no-repeat;
   opacity: 0.3;
+  z-index: 1000000;
 }
-
 * {
   -webkit-print-color-adjust: exact !important;   /* Chrome, Safari */
-  color-adjust: exact !important;                 /*Firefox*/
+  color-adjust: exact !important; 
+}
+
+
+@media print
+{  
+  .non-printable { display: none; }
+  .printable { display: block; }
+}
+
+pago{
+  color: green !important;
+}
+
+pendente{
+  color: red !important;
 }
