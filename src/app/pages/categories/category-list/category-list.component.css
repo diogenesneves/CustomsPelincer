@@ -15,7 +15,6 @@
 }
   
 .watermarked:after {
-  margin-top: 20px;
   content: "";
   display: block;
   width: 100%;
@@ -36,11 +35,17 @@
   color-adjust: exact !important; 
 }
 
+@page {
+  size: 210mm 297mm; 
+  /* Chrome sets own margins, we change these printer settings */
+  margin: 27mm 16mm 27mm 16mm; 
+}
+
 
 @media print
 {  
   .non-printable { display: none; }
-  .printable { display: block; }
+  .printable { display: block; page-break-after: always;}
 }
 
 pago{

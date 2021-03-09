@@ -136,19 +136,34 @@
                   <option value='Cancelado'>Cancelado</option>
                 </select>
               </div>
-              <div class="form-group col-md-4">
-                <label for="name">Valor a ser Cobrado</label>
+              <div class="form-group col-md-1">
+                <label for="name">Quantidade</label>
+                <input type="number" class="form-control" id="qtd" formControlName="qtd" (blur)="calcValor()">
+              </div>
+              <div class="form-group col-md-1">
+                <label for="name">Valor Unitário</label>
                 <div class="input-group">
                   <div class="imput-group-prepend">
                     <div class="input-group-text">R$</div>
                   </div>
-                  <input [imask]="imaskConfig" type="text" id="valor" formControlName="valor">
+                  <input [imask]="imaskConfig" style="width: 100px" type="text" id="valor" formControlName="valor" (blur)="calcValor()">
                 </div>
               </div>
-              <div class="form-group col-md-3">
+              <div class="form-group col-md-5">
                 <label for="name">Previsão de entrega</label>
                 <p-inputNumber id="entrega" formControlName="entrega" prefix="Previsão de entrega para " suffix=" dias utéis">
                 </p-inputNumber>
+              </div>
+            </div>
+            <div class="form-row p-grid ui-fluid">  
+              <div class="form-group col-md-3">
+                <label for="name">Valor Total</label>
+                <div class="input-group">
+                  <div class="imput-group-prepend">
+                    <div class="input-group-text total">R$</div>
+                  </div>
+                  <input [imask]="imaskConfig" type="text" [(ngModel)]="valorTotal" id="total" formControlName="total">
+                </div>
               </div>
               <div class="form-group col-md-12">
                 <label for="name">Obs:</label>

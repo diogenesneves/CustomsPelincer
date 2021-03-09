@@ -94,9 +94,9 @@
     </p-table >
 </div>
 </div>
-<p-dialog header="Pedidos" [(visible)]="displayBasic2" [style]="{width: '80vw'}" [baseZIndex]="10000">
-    <div id="printDiv" class="row printable" customClass="watermarked">
-        <div *ngFor="let item of printContent; let i = index" class="ml-3 column watermarked test">
+<p-dialog header="Pedidos" [(visible)]="displayBasic2" [style]="{width: '80vw'}" [baseZIndex]="10000" class="non-printable">
+    <div id="printDiv" class="row printable" customClass="watermarked" >
+        <div *ngFor="let item of printContent; let i = index" class="ml-3 column watermarked test" style="margin-bottom: 21px;page-break-after: always;">
          <div style="padding-left: 10px;">
             <span style="font-size: 15px;"><strong>Peça: {{item.custom_piece.nome}}</strong></span><br>
             <span><strong>Cliente(a):</strong> {{item.cliente.nome}}</span><br>

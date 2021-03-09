@@ -68,6 +68,7 @@ export class CategoryFormComponent implements OnInit {
   modelo:string ="";
   nomePeca: string;
   pago: boolean = false;
+  valorTotal;
   
   constructor(
     private pendencyService: PendencyService,
@@ -169,6 +170,8 @@ export class CategoryFormComponent implements OnInit {
       descricao: [null, [Validators.required, Validators.minLength(1)]],
       cordobanho: [null, [Validators.required]],
       valor: [null, [Validators.required]],
+      total: [null, [Validators.required]],
+      qtd: [1, [Validators.required]],
       valor_bruto: [null, [Validators.required]],
       status: ['Aberto', [Validators.required]],
       pago: ['Pendente'],
@@ -279,6 +282,10 @@ export class CategoryFormComponent implements OnInit {
     // }, 1000);
 
   }
+
+public calcValor(){
+ this.valorTotal = (this.pendencyForm.get('qtd').value * parseFloat(this.pendencyForm.get('valor').value.replace(/,/g, '.'))).toString();
+}  
 
 addSingle(type:any) {
   if(type === 'new'){

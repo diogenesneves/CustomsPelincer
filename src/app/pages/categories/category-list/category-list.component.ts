@@ -110,7 +110,7 @@ export class CategoryListComponent implements OnInit {
   }
 
   public captureScreen() {
-    var data = document.getElementById('idOfDivToPrint');  //Id of the table
+    var data = document.getElementById('printDiv');  //Id of the table
     html2canvas(data, { useCORS: true, })
       .then(canvas => {
         this.capturedImage = canvas.toDataURL();
@@ -131,8 +131,10 @@ export class CategoryListComponent implements OnInit {
 
 
   print() {
-    this.printerService.printOpenWindow = false;
-    this.printerService.printDiv('printDiv');
+    let printData = document.getElementById('printDiv').cloneNode(true);
+    document.body.appendChild(printData);
+    window.print();
+    document.body.removeChild(printData);
   }
   printSelecteds() {
     this.selecteds = false;

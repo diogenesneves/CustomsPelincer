@@ -16,3 +16,10 @@
 :host ::ng-deep .custom-toast .ui-toast-message.ui-toast-message-info .ui-toast-close-icon {
     color: #ffffff;
 }
+.input-group-text {
+    color: #FC466B;
+}
+.total {
+    background-color: gold;
+    font-weight: bold;
+}
