@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ElementRef, ViewChild, LOCALE_ID } from '@angular/core';
 import { PendencyService } from '../shared/pendency.service';
 import { Pendency } from '../shared/pendency.model';
 import { SortEvent } from 'primeng/api/sortevent';
@@ -13,16 +13,20 @@ import { FilterUtils } from '../../clients/shared/utils/filterutils';
 import { TestBed } from '@angular/core/testing';
 import { MessageService } from 'primeng/api';
 import { forkJoin } from 'rxjs';
-
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 // import pdfMake from 'pdfmake/build/pdfmake';
 // import pdfFonts from 'pdfmake/build/vfs_fonts';
 // pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+registerLocaleData(localePt, 'pt-BR');
+
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.css'],
-  providers: [MessageService]
+  providers: [MessageService,{ provide: LOCALE_ID, useValue: 'pt-BR'}]
 })
 export class CategoryListComponent implements OnInit {
 
@@ -42,6 +46,7 @@ export class CategoryListComponent implements OnInit {
   printContent: any = [];
   selected: [] = [];
   pdfTitle: string = "";
+  action:string = "";
 
   observable = [];
 
@@ -56,6 +61,7 @@ export class CategoryListComponent implements OnInit {
   node = document.getElementById('my-node');
   capturedImage: any;
   title: string = ""
+  displayConfirm: boolean = false;
 
   constructor(private categoryService: PendencyService,
     private router: Router,
@@ -103,15 +109,21 @@ export class CategoryListComponent implements OnInit {
       )
   }
 
-  public entrega(dias) {
-    let entrega = new Date();
-    entrega.setDate(entrega.getDate() + dias)
+  public total(data) {
+    const qtd = data.qtd == null ? 1 : data.qtd;
+    const total = parseFloat(data.valor) * qtd;
+    return total;
+  }
+
+  public entrega(days, created) {
+    let entrega = new Date(created);
+    entrega.setDate(entrega.getDate() + days)
     return entrega
   }
 
   public captureScreen() {
     var data = document.getElementById('printDiv');  //Id of the table
-    html2canvas(data, { useCORS: true, })
+    html2canvas(data)
       .then(canvas => {
         this.capturedImage = canvas.toDataURL();
 
@@ -123,9 +135,9 @@ export class CategoryListComponent implements OnInit {
 
         const contentDataURL = canvas.toDataURL('image/png')
         let pdf = new jspdf('l', 'mm', [196, 562]);
-        let position = 0;
+        let position = 1;
         pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-        pdf.save(this.pdfTitle + '.pdf'); // Generated PDF   
+        pdf.save(`${this.printContent[0].cliente.nome} - ${this.printContent[0].custom_piece.nome}` + '.pdf'); // Generated PDF   
       });
   }
 
@@ -151,6 +163,21 @@ export class CategoryListComponent implements OnInit {
     this.printContent = [];
     this.printContent.push(row);
     this.displayBasic2 = true;
+  }
+
+  showDialogConfirm(action) {
+    this.displayConfirm = true;
+    switch (action) {
+      case 'pend':
+        this.action = "PENDENTE";
+        break;
+      case 'pay':
+        this.action = "PAGO";
+        break;
+      case 'delivered':
+        this.action = "ENTREGUE";
+        break;
+    }
   }
 
   deletePendency(pendency) {
@@ -180,19 +207,25 @@ export class CategoryListComponent implements OnInit {
       )
   }
 
-  async sendToPendSelecteds() {
+  sendToPendSelecteds() {
+    this.categoryService.multPendency(this.selected).subscribe(res => {
+      this.loadTable(); 
+      this.displayConfirm=false
+    });
+  }
 
-    // const promises = this.selected.map(async (element, idx) => 
-    // console.log(`Received Todo ${idx+1}:`, await this.categoryService.pendency(element).subscribe(()=>{}))
-    // );
+  paySelecteds() {
+    this.categoryService.multPay(this.selected).subscribe(res => {
+      this.loadTable(); 
+      this.displayConfirm=false
+    });
+  }
 
-    // await Promise.all(promises);
-
-    for (const [idx, element] of this.selected.entries()) {
-      const todo = await this.categoryService.pendency(element).subscribe(()=>{this.loadTable()});
-      console.log(`Received Todo ${idx+1}:`, todo);
-    }
-
+  sendToDeliveredSelecteds() {
+    this.categoryService.multDelivery(this.selected).subscribe(res => {
+      this.loadTable(); 
+      this.displayConfirm=false
+    });
   }
 
   deliveryPendency(id) {

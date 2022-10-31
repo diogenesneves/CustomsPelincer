@@ -11,7 +11,7 @@ import { Client } from "./client.model";
 })
 export class ClientService {
 
-  private apiPath: string = "http://sis.sandrapelincer.com.br/api/clientes/"
+  private apiPath: string = "https://sis.sandrapelincer.com.br/api/clientes/"
 
   constructor(private http: HttpClient) { }
 

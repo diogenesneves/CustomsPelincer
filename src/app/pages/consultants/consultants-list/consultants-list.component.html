@@ -1,0 +1,64 @@
+<nav class="mb-4">
+    <ol class="breadcrumb" style="background-color: #b0eeec;">
+        <li class="breadcrumb-item">
+            <a routerLink="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active">
+            Lista de Atendentes
+        </li>
+    </ol>
+</nav>
+<div class="row mb-3">
+    <div class="col-md">
+        <h1 class="h2 pl-3">
+            Lista de Atendentes
+        </h1>    
+    </div>
+    <div class="col">
+        <button pButton routerLink="new" type="button" label="+ Nova Atendente" class="ui-button-raised ui-button-success float-right mr-3"></button>
+    </div>
+</div>
+<div class="ml-3 mr-3">
+<p-table #dt [columns]="cols" [value]="pendencies" [paginator]="true" [rows]="10" [autoLayout]="true">
+    <ng-template pTemplate="caption">
+        <div style="text-align: right">        
+            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder="Filtrar..." (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+            </th>
+            <th>AÇÕES</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <div *ngSwitchCase="'id'">
+                    <span *ngIf="rowData.id">{{rowData[col.field]}}</span>
+                </div>
+                <div *ngSwitchCase="'name'">
+                    <span *ngIf="rowData.name">{{rowData[col.field]}}</span>
+                </div>
+                <div *ngSwitchCase="'phone'">
+                    <span *ngIf="rowData.phone">{{rowData[col.field] ? 'Não cadastrado' : rowData[col.field]}}</span>
+                </div>
+                <div *ngSwitchCase="'address'">
+                    <span *ngIf="rowData.address">{{rowData[col.field] ? 'Não cadastrado' : rowData[col.field]}}</span>
+                </div>
+                <div *ngSwitchCase="'status'">
+                    <span *ngIf="rowData.status">{{rowData[col.field] ? "ATIVO" : "INATIVO"}}</span>
+                </div>
+            </td>
+            <td class="actions-column">
+                <p-button type="button" icon="pi pi-pencil" class="mr-2" title="Editar" (click)="editConsultant(rowData.id)" styleClass="ui-button-info" ></p-button>
+                <p-button type="button" icon="pi pi-trash" title="Excluir" (click)="deleteConsultant(rowData)" styleClass="ui-button-danger"></p-button>
+              </td>
+        </tr>
+    </ng-template>
+</p-table >
+</div>

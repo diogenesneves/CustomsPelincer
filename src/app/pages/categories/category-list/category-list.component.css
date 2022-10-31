@@ -23,7 +23,7 @@
   top: 0px;
   left: 0px;
   margin-left: 3px;
-  background-image: url("/assets/logoDourada.png")  !important;
+  background-image: url("/sistema/assets/logoDourada.png")  !important;
   background-size: 100px 100px;
   background-position: 200px 30px;
   background-repeat: no-repeat;
@@ -46,6 +46,9 @@
 {  
   .non-printable { display: none; }
   .printable { display: block; page-break-after: always;}
+  .printRules { display: block;  page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-inside: avoid; /* or 'auto' */}
 }
 
 pago{

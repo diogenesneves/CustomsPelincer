@@ -8,6 +8,7 @@ import { ClientService } from '../shared/client.service'
 import { switchMap } from 'rxjs/operators'
 
 import toastr from "toastr"
+import { ConsultantService } from '../../consultants/shared/consultant.service';
 
 @Component({
   selector: 'app-client-form',
@@ -48,19 +49,24 @@ export class ClientFormComponent implements OnInit {
   chargeFiles: any[]=[];
   imageURL: string;
   photo: string = "";
+  consultants: any[]=[];
 
   
   constructor(
     private clientService: ClientService,
+    private consultantService: ConsultantService,
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
+    this.consultantService.getAll().subscribe(
+      res => this.consultants = res);
     this.setCurrentAction();
     this.buildPieceForm();
     this.loadPiece();
+    console.log(this.consultants)
   }
   ngAfterContentChecked(): void {
     //Called after every check of the component's or directive's content.

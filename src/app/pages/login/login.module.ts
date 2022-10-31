@@ -6,7 +6,6 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {TableModule} from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 
-import {IMaskModule} from 'angular-imask';
 import { SearchPipe } from 'src/app/shared/shared/search.pipe';
 import { LoginComponent } from './login.component';
 import { LoginRoutingModule } from './login-routing.module';

@@ -11,7 +11,7 @@ import { Pendency } from "./pendency.model";
 })
 export class PendencyService {
 
-  private apiPath: string = "http://sis.sandrapelincer.com.br/api/customOrders/"
+  private apiPath: string = "https://sis.sandrapelincer.com.br/api/customOrders/"
 
   constructor(private http: HttpClient) { }
 
@@ -70,6 +70,27 @@ export class PendencyService {
       catchError(this.handleError),
       map(this.jsonDataToPendency)
      )
+  }
+
+  multPendency(pendency): Observable<any>{
+    return this.http.post(`${this.apiPath}${'addMult.json'}`, pendency).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToPendency)
+    )
+  }
+
+  multPay(pendency): Observable<any>{
+    return this.http.post(`${this.apiPath}${'payMult.json'}`, pendency).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToPendency)
+    )
+  }
+
+  multDelivery(pendency): Observable<any>{
+    return this.http.post(`${this.apiPath}${'deliveryMult.json'}`, pendency).pipe(
+      catchError(this.handleError),
+      map(this.jsonDataToPendency)
+    )
   }
 
   delete(id: number): Observable<any> {
