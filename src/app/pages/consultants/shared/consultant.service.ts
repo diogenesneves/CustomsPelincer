@@ -4,25 +4,25 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError} from "rxjs";
 import { map, catchError, flatMap} from "rxjs/operators"
 
-import { Piece } from "./piece.model";
+import { Consultant } from "./consultant.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PieceService {
+export class ConsultantService {
 
-  private apiPath: string = "https://sis.sandrapelincer.com.br/api/customPieces/"
+  private apiPath: string = "https://sis.sandrapelincer.com.br/api/consultants/"
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Piece[]>{
+  getAll(): Observable<Consultant[]>{
     return this.http.get(`${this.apiPath}${'index.json'}`).pipe(
       catchError(this.handleError),
       map(res => { return res.data; })
       )
   }
 
-  getById(id: number): Observable<Piece>{
+  getById(id: number): Observable<Consultant>{
     const url = `${this.apiPath}view/${id}.json`;
       return this.http.get(url).pipe(
         catchError(this.handleError),
@@ -30,14 +30,14 @@ export class PieceService {
         )
   }
 
-  create(piece: Piece): Observable<Piece>{
+  create(piece: Consultant): Observable<Consultant>{
     return this.http.post(`${this.apiPath}${'add.json'}`, piece).pipe(
       catchError(this.handleError),
       //map(this.jsonDataToPiece)
     )
   }
 
-  update(piece: Piece, data): Observable<Piece>{
+  update(piece: Consultant, data): Observable<Consultant>{
     const url = `${this.apiPath}edit/${piece.id}.json`;
      return this.http.post(url, data).pipe(
       catchError(this.handleError),
@@ -55,14 +55,14 @@ export class PieceService {
 
 //  PRIVATE METHODS
 
-private jsonDataToPieces(jsonData: any[]): Piece[] {
-  const pieces: Piece[] = []
-  jsonData.forEach(element => pieces.push( element as Piece));
+private jsonDataToPieces(jsonData: any[]): Consultant[] {
+  const pieces: Consultant[] = []
+  jsonData.forEach(element => pieces.push( element as Consultant));
     return pieces;
 }
 
-private jsonDataToPiece(jsonData: any): Piece{
-  return jsonData as Piece;
+private jsonDataToPiece(jsonData: any): Consultant{
+  return jsonData as Consultant;
 }
 
 private handleError(error: any): Observable<any>{

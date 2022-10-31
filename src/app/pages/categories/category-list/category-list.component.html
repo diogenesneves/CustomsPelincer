@@ -12,13 +12,15 @@
 
 <div class="row mb-4">
     <div class="col-md">
-        <h1 class="h2 border-left pl-2">
+        <h1 class="h2 border-left pl-2 ml-2">
             {{title}}
         </h1>    
     </div>
     <div class="col">
-        <button [disabled]="this.selected.length == 0" type="button" (click)="printSelecteds()" class="ui-button-raised ui-button-info float-right mr-3" pButton icon="pi pi-external-link" label="Gerar/Imprimir"></button>
-        <button *ngIf="title == 'Em sdsds'" [disabled]="this.selected.length == 0" type="button" (click)="sendToPendSelecteds()" class="ui-button-warning ui-button-info float-right mr-3" pButton icon="pi pi-external-link" label="Enviar p/ Pendente"></button>
+        <button [disabled]="this.selected.length == 0" type="button" (click)="printSelecteds()" class="ui-button-raised ui-button-info float-right mr-3" pButton icon="pi pi-print" label="Imprimir"></button>
+        <button *ngIf="title == 'Em aberto'" [disabled]="this.selected.length == 0" type="button" (click)="showDialogConfirm('pend')" class="ui-button-warning ui-button-info float-right mr-3" pButton icon="pi pi-external-link" label="Enviar p/ Pendente"></button>
+        <button *ngIf="title != 'Em aberto'" [disabled]="this.selected.length == 0" type="button" (click)="showDialogConfirm('pay')" class="ui-button-danger ui-button-info float-right mr-3" pButton icon="pi pi-dollar" label="Marcar como Pago"></button>
+        <button *ngIf="title != 'Em aberto' && title != 'Entregue'" [disabled]="this.selected.length == 0" type="button" (click)="showDialogConfirm('delivered')" class="ui-button-warning ui-button-info float-right mr-3" pButton icon="pi pi-envelope" label="Enviar p/ Entregue"></button>
         <button *ngIf="show" pButton routerLink="new" type="button" label="+ Novo Pedido" class="ui-button-raised ui-button-success float-right mr-3"></button>
     </div>
 </div>
@@ -61,7 +63,7 @@
                         <span *ngIf="rowData.custom_piece.codigo">{{rowData.custom_piece[col.field]}}</span>
                     </div>
                     <div *ngSwitchCase="'valor'">
-                        <span *ngIf="rowData.valor">{{rowData[col.field]}}</span>
+                        <span *ngIf="rowData.valor">{{total(rowData) | currency:'BRL':true}}</span>
                     </div>
                     <div *ngSwitchCase="'tipo'">
                         <span *ngIf="rowData.custom_piece.tipo">{{rowData.custom_piece[col.field]}}</span>
@@ -86,7 +88,7 @@
                     <p-button type="button" icon="pi pi-pencil" class="mr-2" title="Editar" (click)="editPendency(rowData.id)" styleClass="ui-button-primary" ></p-button>
                     <p-button type="button" icon="pi pi-trash" class="mr-2" title="Excluir" (click)="deletePendency(rowData)" styleClass="ui-button-danger"></p-button>
                     <p-button type="button" icon="pi pi-dollar" class="mr-2" title="Pagar" (click)="payPendency(rowData)" styleClass="ui-button-success"></p-button>
-                    <p-button type="button" *ngIf="title == 'Ag. Fornecedor'" icon="pi pi-thumbs-up" class="mr-2" title="Entregar" (click)="deliveryPendency(rowData)" styleClass="ui-button-secondary"></p-button>
+                    <p-button type="button" *ngIf="title == 'Ag. Fornecedor'" icon="pi pi-envelope" class="mr-2" title="Entregar" (click)="deliveryPendency(rowData)" styleClass="ui-button-secondary"></p-button>
                     <p-button type="button" icon="pi pi-print" title="Imprimir" (click)="showDialog(rowData)" styleClass="ui-button-warning"></p-button>
                 </td>
             </tr>
@@ -97,20 +99,20 @@
 <p-dialog header="Pedidos" [(visible)]="displayBasic2" [style]="{width: '80vw'}" [baseZIndex]="10000" class="non-printable">
     <div id="printDiv" class="row printable" customClass="watermarked" >
         <div *ngFor="let item of printContent; let i = index" class="ml-3 column watermarked test" style="margin-bottom: 21px;page-break-after: always;">
-         <div style="padding-left: 10px;">
+         <div style="padding-left: 10px;" class="printRules">
             <span style="font-size: 15px;"><strong>Peça: {{item.custom_piece.nome}}</strong></span><br>
             <span><strong>Cliente(a):</strong> {{item.cliente.nome}}</span><br>
             <span><strong>Atendente:</strong> {{item.cliente.atendente}}</span><br>
             <span><img style="width: 110px; height: 100px; float: right;margin-bottom: 35px; 
             border-radius: 10px;"
-                [src]="'http://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+item.custom_piece.photo">
+                [src]="'https://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+item.custom_piece.photo">
             </span>
             <span><strong>Tipo:</strong> {{item.custom_piece.tipo}}</span><br>
             <span><strong>Código:</strong> {{item.custom_piece.codigo}}</span><br>
             <span><strong>Banho:</strong> {{item.cordobanho}}</span><br>
-            <span><strong>Valor: </strong> R$ {{item.valor}}</span> - <span [ngStyle]="{'color': (item.pago=='Pago') ? 'green' : 'red'}"><strong>{{item.pago}}</strong></span><br>
+            <span><strong>Qtd: </strong></span>{{item.qtd == null ? 1 : item.qtd}} - <span><strong>Valor Total: </strong> {{total(item)  | currency:'BRL':true}}</span> - <span [ngStyle]="{'color': (item.pago=='Pago') ? 'green' : 'red'}"><strong>{{item.pago}}</strong></span><br>
             <span><strong>Data do Pedido:</strong> {{item.created | date: 'dd/MM/yyyy'}}</span><br>
-            <span><strong>Data da Entrega(Previsão):</strong> {{(entrega(item.entrega)) | date: 'dd/MM/yyyy'}}</span><br>
+            <span><strong>Data da Entrega(Previsão):</strong> {{(entrega(item.entrega, item.created)) | date: 'dd/MM/yyyy'}}</span><br>
             <span ><strong>Descrição:</strong> {{item.descricao}}</span><br>
          </div>
         </div>
@@ -119,6 +121,18 @@
         <p-footer>
             <button type="button" pButton icon="pi pi-check" (click)="print()" label="Imprimir"></button>
             <button type="button" pButton icon="pi pi-times" (click)="displayBasic2=false" label="Sair" class="ui-button-secondary"></button>
+        </p-footer>
+</p-dialog>
+<p-dialog header="Atenção" [(visible)]="displayConfirm" [style]="{width: '40vw'}" [baseZIndex]="10000" class="non-printable">
+         <div style="font-size: large; font-weight: bold;" [ngSwitch]="action">
+            <span *ngSwitchCase="'PAGO'"> Você realmente deseja alterar o(s) item(s) selecionados para <span style="color:red">{{action}}</span>?</span>
+            <span *ngSwitchDefault> Você realmente deseja enviar o(s) item(s) selecionados para <span style="color:red">{{action}}</span>?</span>
+         </div>
+        <p-footer [ngSwitch]="action">
+            <p-button *ngSwitchCase="'PAGO'" type="button" title="SIM" (click)="paySelecteds()" label="SIM" styleClass="ui-button-success"></p-button>
+            <p-button *ngSwitchCase="'ENTREGUE'" type="button" title="SIM" (click)="sendToDeliveredSelecteds()" label="SIM" styleClass="ui-button-success"></p-button>
+            <p-button *ngSwitchCase="'PENDENTE'" type="button" title="SIM" (click)="sendToPendSelecteds()" label="SIM" styleClass="ui-button-success"></p-button>
+            <p-button type="button" class="m-l-3" title="NÂO" (click)="displayConfirm=false" label="NÃO" styleClass="ui-button-danger"></p-button>
         </p-footer>
 </p-dialog>
 <p-toast position="top-center" [style]="{marginTop: '80px'}"></p-toast>

@@ -28,7 +28,7 @@ export class LoginService{
              'Content-Type'  : 'application/json'
             })
            };
-        return this.http.post<any>('http://sis.sandrapelincer.com.br/api/users/token.json',
+        return this.http.post<any>('https://sis.sandrapelincer.com.br/api/users/token.json',
                                             body, ParseHeaders)
                                             .pipe(map(user => {
                                                 // login successful if there's a jwt token in the response

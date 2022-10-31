@@ -28,15 +28,6 @@ export class PieceFormComponent implements OnInit {
     clear: 'Limpar'
   };
 
-  imaskConfig ={
-    mask: Number,
-    scale: 2,
-    thoushandsSeparator: '',
-    padFractionalZeros: true,
-    normalizeZeros: true,
-    radix: ','
-  }
-
   currentAction: string;
   pieceForm: FormGroup;
   pageTitle: string;
@@ -116,7 +107,7 @@ export class PieceFormComponent implements OnInit {
       modelo: ['Padrão'],
       categoria: [null],
       tamanho: ['Normal'],
-      valor_banho: [null]
+      valor_banho: [null, [Validators.required]]
 
     })
   }
@@ -129,11 +120,13 @@ export class PieceFormComponent implements OnInit {
       )
       .subscribe(
         (piece) => {
-          console.log(piece);
           this.piece = piece;
           this.chargeFiles=[1]
           this.photo = piece.photo;
           this.pieceForm.patchValue(this.piece) // binds loaded piece data to pieceForm
+          this.pieceForm.get('valor_bruto').setValue(parseFloat(this.pieceForm.get('valor_bruto').value));
+          this.pieceForm.get('valor_banho').setValue(parseFloat(this.pieceForm.get('valor_banho').value));
+
         },
         (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
       )

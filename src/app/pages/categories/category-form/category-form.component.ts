@@ -34,14 +34,6 @@ export class CategoryFormComponent implements OnInit {
     clear: 'Limpar'
   };
 
-  imaskConfig ={
-    mask: Number,
-    scale: 2,
-    thoushandsSeparator: '',
-    padFractionalZeros: true,
-    normalizeZeros: true,
-    radix: ','
-  }
 
   currentAction: string;
   pendencyForm: FormGroup;
@@ -128,10 +120,10 @@ export class CategoryFormComponent implements OnInit {
         this.matchID = this.customPiece[index].id;
         this.photo = this.customPiece[index].photo;
         this.pendencyForm.controls['valor_bruto'].setValue(
-          this.customPiece[index].valor_bruto
+          parseFloat(this.customPiece[index].valor_bruto)
         ); 
         this.pendencyForm.controls['valor_banho'].setValue(
-          this.customPiece[index].valor_banho
+          parseFloat(this.customPiece[index].valor_banho)
         ); 
         this.tipo = this.customPiece[index].tipo;
         this.codigo = this.customPiece[index].codigo;
@@ -168,7 +160,7 @@ export class CategoryFormComponent implements OnInit {
       cliente_id: [null,Validators.required],
       custom_piece_id: [null,Validators.required],
       descricao: [null, [Validators.required, Validators.minLength(1)]],
-      cordobanho: [null, [Validators.required]],
+      cordobanho: ['naoaplica', [Validators.required]],
       valor: [null, [Validators.required]],
       total: [null, [Validators.required]],
       qtd: [1, [Validators.required]],
@@ -204,10 +196,15 @@ export class CategoryFormComponent implements OnInit {
                 entrega: pendency[0].entrega,
                 valor:pendency[0].valor,
                 pago:pendency[0].pago,
+                qtd:pendency[0].qtd != null ? pendency[0].qtd : 1,
                 valor_banho:piece.valor_banho,
                 valor_bruto:piece.valor_bruto,
                 obs: pendency[0].obs}
               ) // binds loaded pendency data to pendencyForm
+              this.pendencyForm.get('valor').setValue(parseFloat(this.pendencyForm.get('valor').value));
+              this.pendencyForm.get('valor_banho').setValue(parseFloat(this.pendencyForm.get('valor_banho').value));
+              this.pendencyForm.get('valor_bruto').setValue(parseFloat(this.pendencyForm.get('valor_bruto').value));
+              this.calcValor();
             }
           )
           this.pendency = pendency[0];
@@ -284,7 +281,7 @@ export class CategoryFormComponent implements OnInit {
   }
 
 public calcValor(){
- this.valorTotal = (this.pendencyForm.get('qtd').value * parseFloat(this.pendencyForm.get('valor').value.replace(/,/g, '.'))).toString();
+ this.valorTotal = (this.pendencyForm.get('qtd').value * this.pendencyForm.get('valor').value);
 }  
 
 addSingle(type:any) {

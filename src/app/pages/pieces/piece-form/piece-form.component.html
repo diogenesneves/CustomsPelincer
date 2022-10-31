@@ -25,7 +25,7 @@
         <div class="card-body">
             <div class="form-row">
                 <div class="col-md-2 mb-2 ml-4" *ngIf="chargeFiles.length">
-                    <img class="rounded imagePreview" [src]="'http://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+photo">
+                    <img class="rounded imagePreview" [src]="'https://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+photo">
             </div>
                 <div class="row col-md-10">
                     <div class="form-group">
@@ -95,7 +95,7 @@
                         <div class="imput-group-prepend">
                             <div class="input-group-text">R$</div>
                         </div>
-                        <input type="text" [imask]="imaskConfig" class="form-control" id="valor_bruto" formControlName="valor_bruto">
+                        <input currencyMask class="form-control" id="valor_bruto" formControlName="valor_bruto">
                     </div>
                 </div>
                 <div class="form-group col-md-2">
@@ -104,7 +104,7 @@
                         <div class="imput-group-prepend">
                             <div class="input-group-text">R$</div>
                         </div>
-                        <input type="text" [imask]="imaskConfig" class="form-control" id="valor_banho" formControlName="valor_banho">
+                        <input currencyMask class="form-control" id="valor_banho" formControlName="valor_banho">
                     </div>
                 </div>
                 <div class="form-group col-md-2">

@@ -37,7 +37,7 @@
                   </div>
                   <div class="col-md-4 mb-2" *ngIf="photoShow">
                     <img class="rounded imagePreview"
-                      [src]="'http://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+photo">
+                      [src]="'https://sis.sandrapelincer.com.br/api/files/CustomPieces/photo/'+photo">
                   </div>
                 </div>
               </div>
@@ -79,7 +79,7 @@
                       <div class="imput-group-prepend">
                         <div class="input-group-text">R$</div>
                       </div>
-                      <input [imask]="imaskConfig" type="text" id="valor" formControlName="valor_bruto" readonly>
+                      <input currencyMask type="text" id="valor" formControlName="valor_bruto" readonly>
                     </div>
                   </div>
                   <div class="form-group col-md-4 mt-4 " *ngIf="photoShow">
@@ -88,7 +88,7 @@
                       <div class="imput-group-prepend">
                         <div class="input-group-text">R$</div>
                       </div>
-                      <input [imask]="imaskConfig" type="text" id="valor_banho" formControlName="valor_banho" readonly>
+                      <input currencyMask type="text" id="valor_banho" formControlName="valor_banho" readonly>
                     </div>
                   </div>
                 </div>
@@ -114,13 +114,14 @@
               <div class="form-group col-md-2">
                 <label for="cordobanho">Cor do Banho</label>
                 <select name="corDoBanho" id="corDoBanho" class="form-control" formControlName="cordobanho">
+                  <option value="naoaplica">Não se aplica</option>
                   <option value="Rodio Negro">Ródio Negro</option>
                   <option value="Rodio Claro">Ródio Claro</option>
                   <option value="Ouro">Ouro</option>
                   <option value="Rose">Rose</option>
                 </select>
               </div>
-              <div class="form-group col-md-2">
+              <div class="form-group col-md-1">
                 <label for="status">Status</label>
                 <select name="status" id="status" class="form-control" formControlName="status">
                   <option value='Aberto'>Aberto</option>
@@ -140,13 +141,13 @@
                 <label for="name">Quantidade</label>
                 <input type="number" class="form-control" id="qtd" formControlName="qtd" (blur)="calcValor()">
               </div>
-              <div class="form-group col-md-1">
+              <div class="form-group col-md-2">
                 <label for="name">Valor Unitário</label>
                 <div class="input-group">
                   <div class="imput-group-prepend">
                     <div class="input-group-text">R$</div>
                   </div>
-                  <input [imask]="imaskConfig" style="width: 100px" type="text" id="valor" formControlName="valor" (blur)="calcValor()">
+                  <input currencyMask id="valor" formControlName="valor" (blur)="calcValor()">
                 </div>
               </div>
               <div class="form-group col-md-5">
@@ -162,7 +163,7 @@
                   <div class="imput-group-prepend">
                     <div class="input-group-text total">R$</div>
                   </div>
-                  <input [imask]="imaskConfig" type="text" [(ngModel)]="valorTotal" id="total" formControlName="total">
+                  <input currencyMask [(ngModel)]="valorTotal" id="total" formControlName="total">
                 </div>
               </div>
               <div class="form-group col-md-12">

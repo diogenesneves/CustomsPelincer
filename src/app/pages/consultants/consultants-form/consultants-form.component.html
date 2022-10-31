@@ -20,27 +20,21 @@
 <form [formGroup]="pieceForm" (submit)="submitForm()">
     <div class="card">
         <div class="card-header">
-            Informações do Cliente
+            Informações
         </div>
         <div class="card-body">
             <div class="form-row p-grid ui-fluid">
                 <div class="form-group col-md-4">
                     <label for="name">Nome</label>
-                    <input type="text" class="form-control" id="nome" formControlName="nome">
+                    <input type="text" class="form-control" id="name" formControlName="name">
                 </div>
                 <div class="form-group col-md-2 p-field">
                     <label for="celular">Celular</label>
-                    <p-inputMask mask="99-99999-9999" class="cel" id="celular" formControlName="celular" ></p-inputMask>
+                    <input class="form-control" id="phone" formControlName="phone" >
                 </div>
                 <div class="form-group col-md-6">
                     <label for="name">Endereço</label>
-                    <input type="text" class="form-control" id="endereco" formControlName="endereco">
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="tipo">Atendente</label>
-                    <select name="tipo" id="atendente" class="form-control" formControlName="atendente">
-                        <option *ngFor="let consultant of consultants" [value]="consultant.name">{{consultant.name}}</option>
-                    </select>
+                    <input type="text" class="form-control" id="address" formControlName="address">
                 </div>
                 <div class="form-group col-md-1">
                 <label for="status">Status</label>
