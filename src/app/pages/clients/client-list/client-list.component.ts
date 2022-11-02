@@ -14,74 +14,74 @@ import { FilterUtils } from '../shared/utils/filterutils';
 export class ClientListComponent implements OnInit {
 
   pendencies: Client[] = [];
-  nome="";
+  nome = "";
   cols: any[];
 
   constructor(private clientService: ClientService, private router: Router) { }
 
   ngOnInit() {
     this.clientService.getAll().subscribe(
-      pendencies => this.pendencies = pendencies.sort((a,b)=> b.id - a.id),
+      pendencies => this.pendencies = pendencies.sort((a, b) => b.id - a.id),
       error => alert('Erro ao carregar a lista')
     )
 
     this.cols = [
-        { field: 'id', header: 'ID' },
-        { field: 'nome', header: 'NOME' },
-        { field: 'celular', header: 'TELEFONE' },
-        { field: 'endereco', header: 'ENDEREÇO' },
-        { field: 'atendente', header: 'ATENDENTE' },
-        { field: 'status', header: 'STATUS' }
+      { field: 'id', header: 'ID' },
+      { field: 'nome', header: 'NOME' },
+      { field: 'celular', header: 'TELEFONE' },
+      { field: 'endereco', header: 'ENDEREÇO' },
+      { field: 'atendente', header: 'ATENDENTE' },
+      { field: 'status', header: 'STATUS' }
     ];
 
     FilterUtils['custom'] = (value, filter): boolean => {
       if (filter === undefined || filter === null || filter.trim() === '') {
-          return true;
+        return true;
       }
 
       if (value === undefined || value === null) {
-          return false;
+        return false;
       }
-      
+
       return parseInt(filter) > value;
-  }
+    }
   }
 
   deletePiece(pendency) {
     const mustDelete = confirm('Deseja realmente excluir este item?');
 
-    if(mustDelete){
+    if (mustDelete) {
       this.clientService.delete(pendency.id).subscribe(
         () => this.pendencies = this.pendencies.filter(element => element != pendency),
         () => alert("Erro ao tentar excluir!")
       )
     }
   }
-  editPiece(id){
+  editPiece(id) {
     console.log(id);
-    this.router.navigateByUrl("clients", {skipLocationChange: true}).then(
+    this.router.navigateByUrl("clients", { skipLocationChange: true }).then(
       () => this.router.navigate(['clients', id, 'edit'])
     )
   }
-  
+
   customSort(event: SortEvent) {
     event.data.sort((data1, data2) => {
-        let value1 = data1[event.field];
-        let value2 = data2[event.field];
-        let result = null;
+      let value1 = data1[event.field];
+      let value2 = data2[event.field];
+      let result = null;
 
-        if (value1 == null && value2 != null)
-            result = -1;
-        else if (value1 != null && value2 == null)
-            result = 1;
-        else if (value1 == null && value2 == null)
-            result = 0;
-        else if (typeof value1 === 'string' && typeof value2 === 'string')
-            result = value1.localeCompare(value2);
-        else
-            result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+      if (value1 == null && value2 != null)
+        result = -1;
+      else if (value1 != null && value2 == null)
+        result = 1;
+      else if (value1 == null && value2 == null)
+        result = 0;
+      else if (typeof value1 === 'string' && typeof value2 === 'string')
+        result = value1.localeCompare(value2);
+      else
+        result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
 
-        return (event.order * result);
+      return (event.order * result);
     });
-}
+  }
 }

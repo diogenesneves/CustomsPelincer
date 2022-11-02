@@ -1,0 +1,43 @@
+.ui-fileupload-content {
+    border: 0 none;
+}
+.imagePreview{
+    width: 150px;
+    height: 150px;
+}
+.cel {
+    display: block !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.72 !important;
+}
+
+input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+    color: #fff;
+    position: relative;
+  }
+  
+  input[type="date"]::-webkit-datetime-edit-year-field{
+    position: absolute !important;
+    /* border-left:1px solid #8c8c8c; */
+    padding: 2px;
+    color:#000;
+    left: 56px;
+  }
+  
+  input[type="date"]::-webkit-datetime-edit-month-field{
+    position: absolute !important;
+    /* border-left:1px solid #8c8c8c; */
+    padding: 2px;
+    color:#000;
+    left: 26px;
+  }
+  
+  
+  input[type="date"]::-webkit-datetime-edit-day-field{
+    position: absolute !important;
+    color:#000;
+    padding: 2px;
+    left: 4px;
+    
+  }
