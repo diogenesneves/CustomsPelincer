@@ -13,11 +13,15 @@ export class ReportListComponent implements OnInit {
   cols: any[];
   results: any;
   showDialog: boolean;
+  dataInicio: string;
+  dataFinal: string;
 
   constructor(
     private router: Router
   ) {
     if (this.router.getCurrentNavigation().extras.state !== undefined) {
+      this.dataInicio = this.router.getCurrentNavigation().extras.state.dataInicio;
+      this.dataFinal = this.router.getCurrentNavigation().extras.state.dataFinal;
       this.results = this.router.getCurrentNavigation().extras.state.results;
     } else {
       this.router.navigate(['reports'])

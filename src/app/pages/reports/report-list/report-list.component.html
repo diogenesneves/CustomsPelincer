@@ -11,8 +11,8 @@
     <ng-template pTemplate="caption">
       <p class="titulo-relatorio">Relatório</p>
       <p class="datas-relatorio">
-        De: 21/10/2004
-        Até: 21/10/2004
+        De: {{this.dataInicio | date: 'dd/MM/yyyy'}}
+        Até: {{this.dataFinal | date: 'dd/MM/yyyy'}}
       </p>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">

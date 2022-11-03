@@ -51,9 +51,11 @@ export class ReportFormComponent implements OnInit {
       this.loading = false;
       alert('É necessario inserir uma data inicial e uma data final.')
     } else {
+      let dataInicio = this.reportForm.get('dtInicio').value;
+      let dataFinal = this.reportForm.get('dtFinal').value;
       this.reportService.getData(this.reportForm.value).subscribe(
         results => {
-          this.router.navigate(['reports/list'] , { state: { results } })
+          this.router.navigate(['reports/list'] , { state: { results, dataInicio, dataFinal  } })
           this.loading = false;
         },
         error => console.log(error)
