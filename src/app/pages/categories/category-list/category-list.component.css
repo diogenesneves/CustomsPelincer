@@ -1,3 +1,24 @@
+:host ::ng-deep .geek-spinner .p-progress-spinner-circle {
+  animation: geek 8s ease-in-out infinite;
+}
+
+@keyframes geek {
+100%,
+0% {
+      stroke: #000;
+}
+40% {
+      stroke: #000;
+}
+66% {
+      stroke: #000;
+}
+80%,
+90% {
+      stroke: #000;
+}
+}
+
 .bgImg{
     /*background-image: url("/src/assets/logoDourada.png");
     */
@@ -7,6 +28,7 @@
   position: relative;
   z-index: 1000000;
 }
+
 .test{
   float: left; width: 47.8%;
   font-size: 13px;

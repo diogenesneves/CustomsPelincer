@@ -61,6 +61,7 @@ export class CategoryListComponent implements OnInit {
   node = document.getElementById('my-node');
   capturedImage: any;
   title: string = ""
+  loading: boolean;
   displayConfirm: boolean = false;
 
   constructor(private categoryService: PendencyService,
@@ -71,6 +72,7 @@ export class CategoryListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.cols = [
       { field: 'nome', header: 'NOME' },
       { field: 'descricao', header: 'DESCRIÇÃO' },
@@ -92,16 +94,19 @@ export class CategoryListComponent implements OnInit {
       pendencies => this.pendencies = pendencies.sort((a, b) => b.id - a.id),
       error => alert('Erro ao carregar a lista')).add(() => {
         if (this.route.snapshot.url[0] == undefined) {
+          this.loading = false;
           this.title = "Em aberto"
           this.show = true;
           this.pendencies = this.pendencies.filter(e => e.status == 'Aberto')
           console.log('aberto')
         }
         else if (this.route.snapshot.url[0].path == "pendente") {
+          this.loading = false;
           this.title = "Ag. Fornecedor";
           this.pendencies = this.pendencies.filter(e => e.status == "Pendente")
         }
         else if (this.route.snapshot.url[0].path == "entregue") {
+          this.loading = false;
           this.title = "Entregue";
           this.pendencies = this.pendencies.filter(e => e.status == "Entregue")
         }

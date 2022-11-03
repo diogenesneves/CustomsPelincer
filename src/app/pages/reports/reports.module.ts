@@ -1,3 +1,5 @@
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReportListComponent } from './report-list/report-list.component';
 import { ReportFormComponent } from './report-form/report-form.component';
@@ -21,8 +23,10 @@ import { ReportsRoutingModule } from './reports-routing.module';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ProgressSpinnerModule,
     FormsModule,
     ReportsRoutingModule,
+    DialogModule,
     CalendarModule,
     FileUploadModule,
     DropdownModule,

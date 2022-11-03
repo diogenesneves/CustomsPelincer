@@ -16,6 +16,18 @@
     }
 }
 
+.titulo-relatorio{
+    font-size: 20px;
+    color: black;
+    margin-bottom: 0.5rem;
+}
+
+.datas-relatorio{
+    font-size: 16px;
+    color: black;
+}
+
+
 /* Show priority 1 at 320px (20em x 16px) */
 @media screen and (min-width: 20em) {
     th.ui-p-1,
@@ -62,4 +74,13 @@
     td.ui-p-6 {
         display: table-cell;
     }
+}
+
+@media print
+{  
+  .non-printable { display: none; }
+  .printable { display: block; page-break-after: always;}
+  .printRules { display: block;  page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-inside: avoid; /* or 'auto' */}
 }

@@ -16,12 +16,17 @@ export class PieceListComponent implements OnInit {
   pendencies: Piece[] = [];
   nome="";
   cols: any[];
+  loading: boolean;
 
   constructor(private pieceService: PieceService, private router: Router) { }
 
   ngOnInit() {
+    this.loading = true;
     this.pieceService.getAll().subscribe(
-      pendencies => this.pendencies = pendencies.sort((a,b)=> b.id - a.id),
+      pendencies =>{
+        this.pendencies = pendencies.sort((a,b)=> b.id - a.id)
+        this.loading = false;
+      },
       error => alert('Erro ao carregar a lista')
     )
 

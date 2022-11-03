@@ -22,7 +22,7 @@ export class ReportFormComponent implements OnInit {
   consultants: any[]=[];
   reportForm: FormGroup;
   results: any[] = [];
-
+  loading: boolean;
 
   constructor(
     private reportService: ReportService, 
@@ -46,12 +46,19 @@ export class ReportFormComponent implements OnInit {
   }
 
   submitForm(){
-    this.reportService.getData(this.reportForm.value).subscribe(
-      results => {
-        this.router.navigate(['reports/list'] , { state: { results } })
-      },
-      error => console.log(error)
-    )
+    this.loading = true;
+    if(this.reportForm.get('dtInicio').value == null || this.reportForm.get('dtFinal').value == null){
+      this.loading = false;
+      alert('É necessario inserir uma data inicial e uma data final.')
+    } else {
+      this.reportService.getData(this.reportForm.value).subscribe(
+        results => {
+          this.router.navigate(['reports/list'] , { state: { results } })
+          this.loading = false;
+        },
+        error => console.log(error)
+      )
+    }
   }
 
 }

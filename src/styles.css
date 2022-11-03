@@ -1,5 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 /* FileUpload */
+.align-loading{
+  width: 100px;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+
+
 .ui-fileupload .ui-fileupload-buttonbar {
     background-color:  #ffffff !important;
     padding: 0.571em 1em;
