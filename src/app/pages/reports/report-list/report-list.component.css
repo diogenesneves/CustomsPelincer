@@ -16,17 +16,49 @@
     }
 }
 
+
 .titulo-relatorio{
-    font-size: 20px;
+    font-size: 22px;
     color: black;
     margin-bottom: 0.5rem;
 }
 
-.datas-relatorio{
+.data-relatorio{
+    font-size: 18px;
+    color: black;
+}
+
+.title-relatorio{
     font-size: 16px;
     color: black;
 }
 
+.text-relatorio{
+    font-size: 14px;
+    color: black;
+}
+
+.align-data-box{
+    width: 30vw;
+    margin: 0 auto;
+}
+
+.data-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* margin: 0.25rem 0; */
+}
+
+.data-box .title-relatorio{
+    margin-right: 5px;
+}
+
+/*
+.data-box .text-relatorio:not(:last-child){
+    margin-right: 20px;
+} */
 
 /* Show priority 1 at 320px (20em x 16px) */
 @media screen and (min-width: 20em) {

@@ -72,7 +72,7 @@ export class CategoryListStatusComponent implements OnInit {
     
     return parseInt(filter) > value;
 }
-    this.categoryService.getAll().subscribe(
+    this.categoryService.getAll("", "").subscribe(
       pendencies => this.pendencies = pendencies.sort((a,b)=> b.id - a.id),
       error => alert('Erro ao carregar a lista' )
     )

@@ -1,5 +1,5 @@
 <div *ngIf="this.loading" class="align-loading">
-    <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+  <p-progressSpinner strokeWidth="4"></p-progressSpinner>
 </div>
 <div *ngIf="!this.loading" class="non-printable">
   <nav class="mb-4">
@@ -18,7 +18,19 @@
         {{title}}
       </h1>
     </div>
-    <div class="col">
+    <div class="col box">
+      <form [formGroup]="dateForm">
+        <div class="align-inputs-box">
+          <div class="inputs" id="divDtInicio">
+            <label for="dtInicio">Data Inicio:</label>
+            <input id="dtInicio" type="date" (change)="loadTable()" name="dtInicio" formControlName="dtInicio"  >
+          </div>
+          <div class="inputs">
+            <label for="dtFinal">Data Final:</label>
+            <input id="dtFinal" type="date" (change)="loadTable()"  name="dtFinal" formControlName="dtFinal" >
+          </div>
+        </div>
+      </form>
       <button [disabled]="this.selected.length == 0" type="button" (click)="printSelecteds()"
         class="ui-button-raised ui-button-info float-right mr-3" pButton icon="pi pi-print" label="Imprimir"></button>
       <button *ngIf="title == 'Em aberto'" [disabled]="this.selected.length == 0" type="button"

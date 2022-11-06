@@ -1,22 +1,49 @@
-:host ::ng-deep .geek-spinner .p-progress-spinner-circle {
-  animation: geek 8s ease-in-out infinite;
+.box{
+  display: flex;
+  width: auto;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes geek {
-100%,
-0% {
-      stroke: #000;
+.align-inputs-box{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
-40% {
-      stroke: #000;
+
+.inputs{
+  margin-right: 0.5rem;
 }
-66% {
-      stroke: #000;
+
+input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+  color: transparent;
+  position: relative;
 }
-80%,
-90% {
-      stroke: #000;
+
+input[type="date"]::-webkit-datetime-edit-year-field{
+  position: absolute !important;
+  /* border-left:1px solid #8c8c8c; */
+  padding: 2px;
+  color:#000;
+  left: 56px;
 }
+
+input[type="date"]::-webkit-datetime-edit-month-field{
+  position: absolute !important;
+  /* border-left:1px solid #8c8c8c; */
+  padding: 2px;
+  color:#000;
+  left: 26px;
+}
+
+
+input[type="date"]::-webkit-datetime-edit-day-field{
+  position: absolute !important;
+  color:#000;
+  padding: 2px;
+  left: 4px;
+  
 }
 
 .bgImg{

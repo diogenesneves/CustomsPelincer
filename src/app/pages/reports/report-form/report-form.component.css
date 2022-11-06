@@ -13,7 +13,7 @@
 }
 
 input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
-    color: #fff;
+    color: transparent;
     position: relative;
   }
   
