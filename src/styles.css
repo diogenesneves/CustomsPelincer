@@ -17,9 +17,12 @@
   }
 }
 
+.top-margin{
+  margin-top: 1rem;
+}
+
 .format-div{
   width: 100vw;
-  margin-top: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -28,10 +31,12 @@
 
 .format-p{
   font-size: 20px;
-  border-bottom: 2px solid;
   color: black;
 }
 
+.bottom-border{
+  border-bottom: 2px solid black;
+}
 
 
 @page {
