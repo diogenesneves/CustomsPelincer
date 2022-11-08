@@ -15,11 +15,11 @@
           <p class="data-relatorio"><span>De:</span> <span>{{this.dataInicio | date: 'dd/MM/yyyy'}}</span></p>
           <p class="data-relatorio"><span>Até:</span> <span>{{this.dataFinal | date: 'dd/MM/yyyy'}}</span></p>
         </div>
-        <div class="data-box" *ngIf="this.pedido !== null || this.statusPedido !== null">
+        <div class="data-box" *ngIf="this.atendente !== null || this.statusPedido !== null">
           <p *ngIf="this.atendente !== null"><span class="title-relatorio">Atendente:</span> <span class="text-relatorio">{{this.atendente}}</span></p>
           <p *ngIf="this.statusPedido !== null"><span class="title-relatorio">Status:</span> <span class="text-relatorio">{{this.statusPedido}}</span></p>
         </div>
-        <div class="data-box" *ngIf="this.atendente !== null || this.cliente !== null">
+        <div class="data-box" *ngIf="this.pedido !== null || this.cliente !== null">
           <p *ngIf="this.cliente !== null"><span class="title-relatorio">Cliente:</span> <span class="text-relatorio">{{this.cliente}}</span></p>
           <p *ngIf="this.pedido !== null"><span class="title-relatorio">Pedido:</span> <span class="text-relatorio">{{this.pedido}}</span></p>
         </div>
@@ -27,7 +27,6 @@
           <p><span class="title-relatorio">Pagamento:</span> <span class="text-relatorio">{{this.statusPagamento}}</span></p>
         </div>
       </div>
-      <!-- ver sobre media print para exibir o numero nas paginas -->
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
@@ -68,15 +67,6 @@
         </td>
       </tr>
     </ng-template>
-    <!-- <ng-template pTemplate="footer">
-      <tr>
-        <td colspan="9">
-          <div id="pageFooter">
-
-          </div>
-        </td>
-      </tr>
-    </ng-template> -->
   </p-table>
   <button *ngIf="selecteds" class="mt-3 mb-3" type="button" pButton icon="pi pi-check" (click)="captureScreen()"
     label="Gerar pdf"></button>
@@ -105,11 +95,11 @@
   <div class="col">
     <button pButton routerLink="/reports" type="button" label="+ Nova Pesquisa"
       class="ui-button-raised ui-button-success float-right mr-3"></button>
-    <button type="button" (click)="this.showDialog = true;" class="ui-button-raised ui-button-info float-right mr-3" pButton
+    <button  *ngIf="this.results.length > 0" type="button" (click)="this.showDialog = true;" class="ui-button-raised ui-button-info float-right mr-3" pButton
       icon="pi pi-print" label="Imprimir"></button>
   </div>
 </div>
-<div class="ml-3 mr-3 non-printable">
+<div class="ml-3 mr-3 non-printable" *ngIf="this.results.length > 0">
   <p-table #dt [columns]="cols" [value]="results" [paginator]="true" [rows]="15" [autoLayout]="true">
     <ng-template pTemplate="caption">
       <div style="text-align: right">
@@ -175,4 +165,7 @@
       </tr>
     </ng-template>
   </p-table>
+</div>
+<div *ngIf="this.results.length == 0" class="empty-result">
+  <p>Sem resultados para esta pesquisa.</p>
 </div>

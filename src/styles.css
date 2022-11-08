@@ -9,16 +9,22 @@
   margin: auto;
 }
 
-@page {
-  counter-increment: page;
-  counter-reset: page 1;
-  @top-right {
-      content: "Page " counter(page) " of " counter(pages);
-  }
+.tabela-atendentes{
+  width: 100vw;
+  margin: 2em auto;
+  text-align: center;
 }
 
-.top-margin{
-  margin-top: 1rem;
+.tabela-atendentes th, td{
+  padding: 0.5rem 0;
+  border: 1px solid;
+  border-spacing: 2px;
+  border-color: grey;
+}
+
+.div-box{
+  margin-top: 6em;
+  margin-bottom: 2rem;
 }
 
 .format-div{
@@ -37,14 +43,6 @@
 .bottom-border{
   border-bottom: 2px solid black;
 }
-
-
-@page {
-  @bottom-right {
-    content: counter(page) " of " counter(pages);
-  }
-}
-
 
 .ui-fileupload .ui-fileupload-buttonbar {
     background-color:  #ffffff !important;

@@ -26,18 +26,6 @@ export class ReportListComponent implements OnInit {
   qtdTotal: number = 0;
   valorTotal: number = 0;
 
-  rutiQTD: number = 0;
-  rutiVALUE: number = 0;
-
-  yuriQTD: number = 0;
-  yuriVALUE: number = 0;
-
-  escritorioQTD: number = 0;
-  escritorioVALUE: number = 0;
-
-  michellyQTD: number = 0;
-  michellyVALUE: number = 0;
-
   constructor(
     private router: Router,
     private consultantService: ConsultantService,
@@ -58,6 +46,7 @@ export class ReportListComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.results)
     this.consultantService.getAll().subscribe(
       res => this.consultants = res);
     this.cols = [
@@ -74,7 +63,6 @@ export class ReportListComponent implements OnInit {
       { field: 'total', header: 'TOTAL' },
     ];
 
-
     this.results.forEach(item => {
       this.qtdTotal = this.qtdTotal + Number(item.qtd);
       this.valorTotal = this.valorTotal + Number(item.total);
@@ -84,11 +72,9 @@ export class ReportListComponent implements OnInit {
       if (filter === undefined || filter === null || filter.trim() === '') {
         return true;
       }
-
       if (value === undefined || value === null) {
         return false;
       }
-
       return parseInt(filter) > value;
     }
   }
@@ -108,40 +94,81 @@ export class ReportListComponent implements OnInit {
     divBox.className = "format-div top-margin"
 
     if (this.atendente == null) {
-      this.consultants.forEach(atendente => {
-        let div = document.createElement('div');
-        div.className = "format-div border"
-        let pNOME = document.createElement('p')
-        pNOME.className = "format-p"
-        pNOME.innerHTML = atendente.name
+      let totalQTD = 0
+      let totalVALUE = 0
+      let atendentes = [];
+      this.results.forEach(item => {
+        if (atendentes.indexOf(item.cliente.atendente.toLowerCase()) == -1) {
+          atendentes.push(item.cliente.atendente.toLowerCase())
+        }
+      });
 
-        let pQTD = document.createElement('p')
-        pQTD.className = "format-p"
+      let tabela = document.createElement('table')
+      tabela.className = "tabela-atendentes"
+      let thead = document.createElement('thead')
+      let tr = document.createElement('tr')
+      tr.className = "trHEAD-atendentes"
+      thead.appendChild(tr)
+
+      let thATDT = document.createElement('th')
+      thATDT.innerHTML = "ATENDENTE"
+      let thQTD = document.createElement('th')
+      thQTD.innerHTML = "QTD"
+      let thVALOR = document.createElement('th')
+      thVALOR.innerHTML = "VALOR"
+
+      tr.appendChild(thATDT)
+      tr.appendChild(thQTD)
+      tr.appendChild(thVALOR)
+
+      let tbody = document.createElement('tbody')
+
+      atendentes.forEach(atendente => {
+
+        let trBODY = document.createElement('tr')
+
+        let tdATDT = document.createElement('td')
+        tdATDT.innerHTML = atendente[0].toUpperCase() + atendente.substring(1)
+        
         let QTD: number = 0
         this.results.forEach(item => {
-          if(item.cliente.atendente.toLowerCase() == atendente.name.toLowerCase()){
+          if (item.cliente.atendente.toLowerCase() == atendente.toLowerCase()) {
             QTD = QTD + Number(item.qtd)
           }
         });
-        pQTD.innerHTML = "Quantidade Total: " + QTD;
+        let tdQTD = document.createElement('td')
+        tdQTD.innerHTML = QTD.toString()
         
-        let pVALUE = document.createElement('p')
-        pVALUE.className = "format-p"
         let VALOR: number = 0
         this.results.forEach(item => {
-          if(item.cliente.atendente.toLowerCase() == atendente.name.toLowerCase()){
+          if (item.cliente.atendente.toLowerCase() == atendente.toLowerCase()) {
             VALOR = VALOR + Number(item.total)
           }
         });
-        pVALUE.innerHTML = "Valor Total: " + VALOR.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+        let tdVALOR = document.createElement('td')
+        tdVALOR.innerHTML = VALOR.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
 
-        div.appendChild(pNOME)
-        div.appendChild(pQTD)
-        div.appendChild(pVALUE)
-        printData.appendChild(div)
+        trBODY.appendChild(tdATDT)
+        trBODY.appendChild(tdQTD)
+        trBODY.appendChild(tdVALOR)
+        tbody.appendChild(trBODY)
+
+      //   let nome = atendente[0].toUpperCase() + atendente.substring(1)
+      //   pNOME.innerHTML = nome
+
+
+      //   pQTD.innerHTML = "Quantidade Total: " + QTD;
+      //   totalQTD = totalQTD + Number(QTD)
+
+
+      //   pVALUE.innerHTML = "Valor Total: " + VALOR.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
+      //   totalVALUE = totalVALUE + Number(VALOR)
       });
+      tabela.appendChild(thead)
+      tabela.appendChild(tbody)
+      printData.appendChild(tabela)
     }
-    
+
     divBox.appendChild(qtdP)
     divBox.appendChild(valorP)
 

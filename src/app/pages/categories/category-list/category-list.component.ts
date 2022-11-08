@@ -145,8 +145,8 @@ export class CategoryListComponent implements OnInit {
 
   formatDate(date: any, type: string){
     let fullDate = date;
-    //formatar para não exibir mês 13, apenas fazer logica para se for 13 ele jogar para 1
     let twoDigitMonth = fullDate.getMonth() + 1 + "";
+    if(twoDigitMonth == "13" ) twoDigitMonth = "1"
     if (twoDigitMonth.length == 1){
       twoDigitMonth = "0" + twoDigitMonth;
     }

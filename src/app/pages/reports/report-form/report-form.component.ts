@@ -58,8 +58,6 @@ export class ReportFormComponent implements OnInit {
       let cliente = this.reportForm.get('cliente').value;
       let statusPagamento = this.reportForm.get('statusPagamento').value;
       let statusPedido = this.reportForm.get('statusPedido').value;
-
-      console.log(this.reportForm.value)
       this.reportService.getData(this.reportForm.value).subscribe(
         results => {
           this.router.navigate(['reports/list'] , { state: { results, dataInicio, dataFinal, atendente, pedido, cliente, statusPagamento, statusPedido  } })

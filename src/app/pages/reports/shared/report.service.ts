@@ -16,7 +16,7 @@ export class ReportService {
 
 
   getData(formData: any): Observable<any[]> {
-    return this.http.post(`${this.apiPath}test.json`,
+    return this.http.post(`${this.apiPath}relatorio.json`,
       {
         "dtInicio": formData.dtInicio !== null ? formData.dtInicio : '',
         "dtFinal": formData.dtFinal !== null ? formData.dtFinal : '',
