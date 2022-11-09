@@ -14,8 +14,10 @@ export class ReportListComponent implements OnInit {
   consultants: any;
   pendencies: any[] = [];
   cols: any[];
+  colsAtendentes: any[];
   showDialog: boolean;
   results: any;
+  resultsAtendentes: any = [];
   dataInicio: string;
   dataFinal: string;
   pedido: string;
@@ -46,9 +48,13 @@ export class ReportListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.results)
     this.consultantService.getAll().subscribe(
-      res => this.consultants = res);
+      res => this.consultants = res
+    );
+    this.results.forEach(item => {
+      this.qtdTotal = this.qtdTotal + Number(item.qtd);
+      this.valorTotal = this.valorTotal + Number(item.total);
+    });
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'custom_piece', header: 'PEÇA' },
@@ -63,10 +69,38 @@ export class ReportListComponent implements OnInit {
       { field: 'total', header: 'TOTAL' },
     ];
 
+    this.colsAtendentes = [
+      { field: 'atendente', header: 'ATENDENTE' },
+      { field: 'qtd', header: 'QUANTIDADE DE VENDAS' },
+      { field: 'valor', header: 'VALOR TOTAL' }
+    ];
+
     this.results.forEach(item => {
-      this.qtdTotal = this.qtdTotal + Number(item.qtd);
-      this.valorTotal = this.valorTotal + Number(item.total);
+      if (this.resultsAtendentes.indexOf(item.cliente.atendente.toLowerCase()) == -1) {
+        this.resultsAtendentes.push(item.cliente.atendente.toLowerCase())
+      }
     });
+
+    this.resultsAtendentes.forEach(atendente => {
+      let QTD: number = 0
+      this.results.forEach(item => {
+        if (item.cliente.atendente.toLowerCase() == atendente.toLowerCase()) {
+          QTD = QTD + Number(item.qtd)
+        }
+      });
+
+      let VALOR: number = 0
+      this.results.forEach(item => {
+        if (item.cliente.atendente.toLowerCase() == atendente.toLowerCase()) {
+          VALOR = VALOR + Number(item.total)
+        }
+      });
+      this.resultsAtendentes[this.resultsAtendentes.indexOf(atendente)] = {
+        "atendente": atendente,
+        "qtd": QTD,
+        "valor": VALOR
+      }
+    })
 
     FilterUtils['custom'] = (value, filter): boolean => {
       if (filter === undefined || filter === null || filter.trim() === '') {
@@ -94,8 +128,6 @@ export class ReportListComponent implements OnInit {
     divBox.className = "format-div top-margin"
 
     if (this.atendente == null) {
-      let totalQTD = 0
-      let totalVALUE = 0
       let atendentes = [];
       this.results.forEach(item => {
         if (atendentes.indexOf(item.cliente.atendente.toLowerCase()) == -1) {
@@ -129,7 +161,7 @@ export class ReportListComponent implements OnInit {
 
         let tdATDT = document.createElement('td')
         tdATDT.innerHTML = atendente[0].toUpperCase() + atendente.substring(1)
-        
+
         let QTD: number = 0
         this.results.forEach(item => {
           if (item.cliente.atendente.toLowerCase() == atendente.toLowerCase()) {
@@ -138,7 +170,7 @@ export class ReportListComponent implements OnInit {
         });
         let tdQTD = document.createElement('td')
         tdQTD.innerHTML = QTD.toString()
-        
+
         let VALOR: number = 0
         this.results.forEach(item => {
           if (item.cliente.atendente.toLowerCase() == atendente.toLowerCase()) {
@@ -152,17 +184,6 @@ export class ReportListComponent implements OnInit {
         trBODY.appendChild(tdQTD)
         trBODY.appendChild(tdVALOR)
         tbody.appendChild(trBODY)
-
-      //   let nome = atendente[0].toUpperCase() + atendente.substring(1)
-      //   pNOME.innerHTML = nome
-
-
-      //   pQTD.innerHTML = "Quantidade Total: " + QTD;
-      //   totalQTD = totalQTD + Number(QTD)
-
-
-      //   pVALUE.innerHTML = "Valor Total: " + VALOR.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })
-      //   totalVALUE = totalVALUE + Number(VALOR)
       });
       tabela.appendChild(thead)
       tabela.appendChild(tbody)
