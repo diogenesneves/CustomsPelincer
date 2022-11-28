@@ -28,7 +28,7 @@
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.25",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ng2-file-upload": "^1.4.0",
     "ngx-currency": "^2.5.2",
     "ngx-printer": "^0.3.2",
