@@ -1,0 +1,146 @@
+ /* Column Priorities */
+ @media only all {
+    th.ui-p-6,
+    td.ui-p-6,
+    th.ui-p-5,
+    td.ui-p-5,
+    th.ui-p-4,
+    td.ui-p-4,
+    th.ui-p-3,
+    td.ui-p-3,
+    th.ui-p-2,
+    td.ui-p-2,
+    th.ui-p-1,
+    td.ui-p-1 {
+        display: none;
+    }
+}
+
+.align-table{
+    text-align: center;
+    width: 50vw;
+    margin: 2rem auto;
+}
+
+.results-div{
+    margin: 0 auto 2rem auto;
+    width: 70vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.empty-result{
+    height: 60vh;
+    width: 100vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-result p{
+    font-size: 20px;
+    color: black;
+}
+
+.titulo-relatorio{
+    font-size: 22px;
+    color: black;
+    margin-bottom: 0.5rem;
+}
+
+.data-relatorio{
+    font-size: 18px;
+    color: black;
+}
+
+.title-relatorio{
+    font-size: 16px;
+    color: black;
+}
+
+.text-relatorio{
+    font-size: 14px;
+    color: black;
+}
+
+.align-data-box{
+    width: 30vw;
+    margin: 0 auto;
+}
+
+.data-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* margin: 0.25rem 0; */
+}
+
+.data-box .title-relatorio{
+    margin-right: 5px;
+}
+
+/*
+.data-box .text-relatorio:not(:last-child){
+    margin-right: 20px;
+} */
+
+/* Show priority 1 at 320px (20em x 16px) */
+@media screen and (min-width: 20em) {
+    th.ui-p-1,
+    td.ui-p-1 {
+        display: table-cell;
+    }
+}
+
+/* Show priority 2 at 480px (30em x 16px) */
+@media screen and (min-width: 30em) {
+    th.ui-p-2,
+    td.ui-p-2 {
+        display: table-cell;
+    }
+}
+
+/* Show priority 3 at 640px (40em x 16px) */
+@media screen and (min-width: 40em) {
+    th.ui-p-3,
+    td.ui-p-3 {
+        display: table-cell;
+    }
+}
+
+/* Show priority 4 at 800px (50em x 16px) */
+@media screen and (min-width: 50em) {
+    th.ui-p-4,
+    td.ui-p-4 {
+        display: table-cell;
+    }
+}
+
+/* Show priority 5 at 960px (60em x 16px) */
+@media screen and (min-width: 60em) {
+    th.ui-p-5,
+    td.ui-p-5 {
+        display: table-cell;
+    }
+}
+
+/* Show priority 6 at 1,120px (70em x 16px) */
+@media screen and (min-width: 70em) {
+    th.ui-p-6,
+    td.ui-p-6 {
+        display: table-cell;
+    }
+}
+
+@media print
+{  
+  .non-printable { display: none; }
+  .printable { display: block; page-break-after: always;}
+  .printRules { display: block;  page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
+    page-break-inside: avoid; /* or 'auto' */}
+}

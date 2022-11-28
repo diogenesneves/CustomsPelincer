@@ -1,0 +1,79 @@
+<div *ngIf="this.loading" class="align-loading">
+    <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+</div>
+<div *ngIf="!this.loading">
+    <nav class="mb-4">
+        <ol class="breadcrumb" style="background-color: #b0eeec;">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item active"><a routerLink="/reports">Relatorio</a></li>
+        </ol>
+    </nav>
+    
+    <div class="row mb-2">
+        <div class="col-md">
+            <h1 class="h2 border-left pl-2">
+                Relatório
+            </h1>
+        </div>
+    </div>
+    
+    <form [formGroup]="reportForm" (submit)="submitForm()">
+        <div class="card">
+            <div class="card-header">
+                Dados da Pesquisa
+            </div>
+            <div class="card-body">
+                <div class="form-row p-grid ui-fluid">
+                    <div class="form-group col-md-3 d-flex flex-column">
+                        <label for="dtInicio">Data Inicio</label>
+                        <input id="dtInicio" type="date" name="dtInicio" formControlName="dtInicio" placeholder="21/10/2004">
+                    </div>
+                    <div class="form-group col-md-3 d-flex flex-column">
+                        <label for="dtFinal">Data Final</label>
+                        <input id="dtFinal" type="date" name="dtFinal" formControlName="dtFinal" placeholder="21/10/2004" >
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="cliente">Cliente</label>
+                        <p-autoComplete [(ngModel)]="client" [suggestions]="filteredClients" (onSelect)="matchClient(client)"
+                        (completeMethod)="filterClients($event)" [size]="30" [minLength]="1"
+                        placeholder="Digite para pesquisar..." [dropdown]="true" formControlName="cliente">
+                        <ng-template let-client pTemplate="item">
+                          <div class="ui-helper-clearfix"  style="border-bottom:1px solid #D5D5D5">
+                            <div style="font-size:18px;float:left;margin:10px 10px 0 0">{{client}}</div>
+                          </div>
+                        </ng-template>
+                      </p-autoComplete>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="atendente">Atendente</label>
+                        <select name="atendente" id="atendente" class="form-control" formControlName="atendente">
+                            <option *ngFor="let consultant of consultants" [value]="consultant.name">{{consultant.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="pedido">Pedido</label>
+                        <input type="text" class="form-control" name="pedido" id="pedido" formControlName="pedido">
+                    </div>
+                    <div class="form-group col-md-3 p-field">
+                        <label for="statusPedido">Status do Pedido</label>
+                        <select name="statusPedido" id="statusPedido" class="form-control" formControlName="statusPedido">
+                            <option value="Entregue">Entregue</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Aberto">Aberto</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="statusPagamento">Status do Pagamento</label>
+                        <select name="statusPagamento" id="statusPagamento" class="form-control" formControlName="statusPagamento">
+                            <option value="Pago">Pago</option>
+                            <option value="Pendente">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg float-right mt-3 mb-5">
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

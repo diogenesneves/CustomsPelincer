@@ -1,3 +1,4 @@
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -23,6 +24,7 @@ import { NgxCurrencyModule } from 'ngx-currency';
     PiecesRoutingModule,
     ReactiveFormsModule,
     CalendarModule,
+    ProgressSpinnerModule,
     FormsModule,
     FileUploadModule,
     TableModule,

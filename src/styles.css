@@ -1,5 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
 /* FileUpload */
+.align-loading{
+  width: 100px;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.tabela-atendentes{
+  width: 100vw;
+  margin: 2em auto;
+  text-align: center;
+}
+
+.tabela-atendentes th, td{
+  padding: 0.5rem 0;
+  border: 1px solid;
+  border-spacing: 2px;
+  border-color: grey;
+}
+
+.div-box{
+  margin-top: 6em;
+  margin-bottom: 2rem;
+}
+
+.format-div{
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.format-p{
+  margin-top: 0.5rem;
+  font-size: 20px;
+  color: black;
+}
+
+.bottom-border{
+  border-bottom: 2px solid black;
+}
+
 .ui-fileupload .ui-fileupload-buttonbar {
     background-color:  #ffffff !important;
     padding: 0.571em 1em;

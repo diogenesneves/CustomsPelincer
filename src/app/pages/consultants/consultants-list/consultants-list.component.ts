@@ -15,12 +15,17 @@ export class ConsultantsListComponent implements OnInit {
   pendencies: Client[] = [];
   nome="";
   cols: any[];
+  loading: boolean;
 
   constructor(private consultantService: ConsultantService, private router: Router) { }
 
   ngOnInit() {
+    this.loading = true;
     this.consultantService.getAll().subscribe(
-      pendencies => this.pendencies = pendencies.sort((a,b)=> b.id - a.id),
+      pendencies =>{
+        this.pendencies = pendencies.sort((a,b)=> b.id - a.id)
+        this.loading = false;
+      } ,
       error => alert('Erro ao carregar a lista')
     )
 

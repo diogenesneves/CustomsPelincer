@@ -1,3 +1,4 @@
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -22,6 +23,7 @@ import { InputMaskModule } from 'primeng/inputmask';
     ClientsRoutingModule,
     ReactiveFormsModule,
     CalendarModule,
+    ProgressSpinnerModule,
     FormsModule,
     FileUploadModule,
     TableModule,

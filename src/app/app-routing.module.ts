@@ -10,6 +10,7 @@ const routes: Routes = [
     { path: 'pieces', loadChildren: './pages/pieces/pieces.module#PiecesModule'},
     { path: 'consultants', loadChildren: './pages/consultants/consultants.module#ConsultantsModule'},
     { path: 'clients', loadChildren: './pages/clients/clients.module#ClientsModule'},
+    { path: 'reports', loadChildren: './pages/reports/reports.module#ReportsModule'},
   ]},
   { path: 'login', loadChildren: './pages/login/login.module#LoginModule'},
 

@@ -1,0 +1,195 @@
+<p-dialog header="Pedidos" [(visible)]="showDialog" [style]="{width: '80vw'}" [baseZIndex]="10000"
+  class="non-printable">
+  <p-table id="dataTable" [columns]="cols" [value]="results" [autoLayout]="true">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="caption">
+      <p class="titulo-relatorio">Relatório</p>
+      <div class="align-data-box">
+        <div class="data-box">
+          <p class="data-relatorio"><span>De:</span> <span>{{this.dataInicio | date: 'dd/MM/yyyy'}}</span></p>
+          <p class="data-relatorio"><span>Até:</span> <span>{{this.dataFinal | date: 'dd/MM/yyyy'}}</span></p>
+        </div>
+        <div class="data-box" *ngIf="this.atendente !== null || this.statusPedido !== null">
+          <p *ngIf="this.atendente !== null"><span class="title-relatorio">Atendente:</span> <span class="text-relatorio">{{this.atendente}}</span></p>
+          <p *ngIf="this.statusPedido !== null"><span class="title-relatorio">Status:</span> <span class="text-relatorio">{{this.statusPedido}}</span></p>
+        </div>
+        <div class="data-box" *ngIf="this.pedido !== null || this.cliente !== null">
+          <p *ngIf="this.cliente !== null"><span class="title-relatorio">Cliente:</span> <span class="text-relatorio">{{this.cliente}}</span></p>
+          <p *ngIf="this.pedido !== null"><span class="title-relatorio">Pedido:</span> <span class="text-relatorio">{{this.pedido}}</span></p>
+        </div>
+        <div class="data-box" *ngIf="this.statusPagamento !== null">
+          <p><span class="title-relatorio">Pagamento:</span> <span class="text-relatorio">{{this.statusPagamento}}</span></p>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'id'">
+            <span *ngIf="rowData.id">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'custom_piece'">
+            <span *ngIf="rowData.custom_piece.nome">{{rowData[col.field].nome}}</span>
+          </div>
+          <div *ngSwitchCase="'qtd'">
+            <span *ngIf="rowData.qtd">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'valor'">
+            <span *ngIf="rowData.valor">{{rowData[col.field] | currency:'BRL':true}}</span>
+          </div>
+          <div *ngSwitchCase="'cliente'">
+            <span *ngIf="rowData.cliente.nome">{{rowData[col.field].nome}}</span>
+          </div>
+          <div *ngSwitchCase="'celular'">
+            <span *ngIf="rowData.cliente.celular">{{rowData['cliente'].celular}}</span>
+          </div>
+          <div *ngSwitchCase="'atendente'">
+            <span *ngIf="rowData.cliente.atendente">{{rowData['cliente'].atendente}}</span>
+          </div>
+          <div *ngSwitchCase="'created'">
+            <span *ngIf="rowData.created">{{rowData[col.field] | date: 'dd/MM/yy'}}</span>
+          </div>
+          <div *ngSwitchCase="'status'">
+            <span *ngIf="rowData.status">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'pago'">
+            <span *ngIf="rowData.pago">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'total'">
+            <span *ngIf="rowData.total">{{rowData[col.field] | currency:'BRL':true}}</span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="print()" label="Imprimir"></button>
+    <button type="button" pButton icon="pi pi-times" (click)="showDialog=false" label="Sair"
+      class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+<nav class="mb-4 non-printable">
+  <ol class="breadcrumb" style="background-color: #b0eeec;">
+    <li class="breadcrumb-item">
+      <a routerLink="/">Home</a>
+    </li>
+    <li class="breadcrumb-item active">
+      Relatórios
+    </li>
+  </ol>
+</nav>
+<div class="row mb-3 non-printable">
+  <div class="col-md">
+    <h1 class="h2 pl-3">
+      Relatórios
+    </h1>
+  </div>
+  <div class="col">
+    <button pButton routerLink="/reports" type="button" label="+ Nova Pesquisa"
+      class="ui-button-raised ui-button-success float-right mr-3"></button>
+    <button  *ngIf="this.results.length > 0" type="button" (click)="this.showDialog = true;" class="ui-button-raised ui-button-info float-right mr-3" pButton
+      icon="pi pi-print" label="Imprimir"></button>
+  </div>
+</div>
+<div class="ml-3 mr-3 non-printable" *ngIf="this.results.length > 0">
+  <p-table #dt [columns]="cols" [value]="results" [paginator]="true" [rows]="10" [autoLayout]="true">
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Filtrar..."
+          (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+            ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+          </p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'id'">
+            <span *ngIf="rowData.id">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'custom_piece'">
+            <span *ngIf="rowData.custom_piece.nome">{{rowData[col.field].nome}}</span>
+          </div>
+          <div *ngSwitchCase="'qtd'">
+            <span *ngIf="rowData.qtd">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'valor'">
+            <span *ngIf="rowData.valor">{{rowData[col.field] | currency:'BRL':true}}</span>
+          </div>
+          <div *ngSwitchCase="'cliente'">
+            <span *ngIf="rowData.cliente.nome">{{rowData[col.field].nome}}</span>
+          </div>
+          <div *ngSwitchCase="'celular'">
+            <span *ngIf="rowData.cliente.celular">{{rowData['cliente'].celular}}</span>
+          </div>
+          <div *ngSwitchCase="'atendente'">
+            <span *ngIf="rowData.cliente.atendente">{{rowData['cliente'].atendente}}</span>
+          </div>
+          <div *ngSwitchCase="'created'">
+            <span *ngIf="rowData.created">{{rowData[col.field] | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+          </div>
+          <div *ngSwitchCase="'status'">
+            <span *ngIf="rowData.status">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'pago'">
+            <span *ngIf="rowData.pago">{{rowData[col.field]}}</span>
+          </div>
+          <div *ngSwitchCase="'total'">
+            <span *ngIf="rowData.total">{{rowData[col.field] | currency:'BRL':true}}</span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <div *ngIf="this.atendente == null" class="align-table">
+    <p-table [columns]="colsAtendentes" [value]="resultsAtendentes" [autoLayout]="true">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+              ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+            </p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns" [ngSwitch]="col.field">
+            <div *ngSwitchCase="'atendente'">
+              <span *ngIf="rowData.atendente">{{rowData.atendente | titlecase}}</span>
+            </div>
+            <div *ngSwitchCase="'qtd'">
+              <span *ngIf="rowData.qtd">{{rowData[col.field]}}</span>
+            </div>
+            <div *ngSwitchCase="'valor'">
+              <span *ngIf="rowData.valor">{{rowData[col.field] | currency:'BRL':true}}</span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="results-div">
+    <p class="format-p bottom-border">Quantidade Total: {{this.qtdTotal.toString()}}</p>
+    <p class="format-p bottom-border">Valor Total: {{this.valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}}</p>
+  </div>
+</div>
+<div *ngIf="this.results.length == 0" class="empty-result">
+  <p>Sem resultados para esta pesquisa.</p>
+</div>

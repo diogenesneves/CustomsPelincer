@@ -15,8 +15,12 @@ export class PendencyService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Pendency[]>{
-    return this.http.get(`${this.apiPath}${'index.json'}`).pipe(
+  getAll(dtInicio: any, dtFinal: any): Observable<Pendency[]>{
+    return this.http.post(`${this.apiPath}index.json`,
+    {
+      "dtInicio": dtInicio,
+      "dtFinal": dtFinal,
+    }).pipe(
       catchError(this.handleError),
       map(res => {
         return res.data;

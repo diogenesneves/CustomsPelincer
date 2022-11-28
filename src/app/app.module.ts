@@ -14,6 +14,8 @@ import { LoginService } from './pages/login/shared/login.service';
 import { AuthGuard } from './guards/auth.guard';
 import { JwtInterceptor } from './guards/jwt.interceptor';
 import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
+import { ReportListComponent } from './pages/reports/report-list/report-list.component';
+import { ReportFormComponent } from './pages/reports/report-form/report-form.component';
 
 
 //import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';

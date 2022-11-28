@@ -6,6 +6,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { CategoryFormComponent } from './category-form/category-form.component';
 
 import { CalendarModule } from "primeng/calendar"
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {LightboxModule} from 'primeng/lightbox';
 import {TableModule} from 'primeng/table';
@@ -29,6 +30,7 @@ import { NgxCurrencyModule } from 'ngx-currency';
     CommonModule,
     CategoriesRoutingModule,
     ReactiveFormsModule,
+    ProgressSpinnerModule,
     CalendarModule,
     AutoCompleteModule,
     FormsModule,

@@ -1,24 +1,15 @@
-import { Component, OnInit, TemplateRef, ElementRef, ViewChild, LOCALE_ID } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, TemplateRef, ElementRef, ViewChild, LOCALE_ID, Input } from '@angular/core';
 import { PendencyService } from '../shared/pendency.service';
 import { Pendency } from '../shared/pendency.model';
 import { SortEvent } from 'primeng/api/sortevent';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgxPrinterService, PrintItem } from 'ngx-printer';
-
 
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
-import { filter } from 'rxjs/operators';
-import { FilterUtils } from '../../clients/shared/utils/filterutils';
-import { TestBed } from '@angular/core/testing';
 import { MessageService } from 'primeng/api';
-import { forkJoin } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
-// import pdfMake from 'pdfmake/build/pdfmake';
-// import pdfFonts from 'pdfmake/build/vfs_fonts';
-// pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 registerLocaleData(localePt, 'pt-BR');
 
 
@@ -26,7 +17,7 @@ registerLocaleData(localePt, 'pt-BR');
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.css'],
-  providers: [MessageService,{ provide: LOCALE_ID, useValue: 'pt-BR'}]
+  providers: [MessageService, { provide: LOCALE_ID, useValue: 'pt-BR' }]
 })
 export class CategoryListComponent implements OnInit {
 
@@ -46,31 +37,37 @@ export class CategoryListComponent implements OnInit {
   printContent: any = [];
   selected: [] = [];
   pdfTitle: string = "";
-  action:string = "";
-
+  action: string = "";
   observable = [];
-
   serverErrorMessages: string[] = null;
   submittingForm: boolean = false;
-
   selecteds: boolean = true;
   show: boolean = false;
-
   resume: any;
-
   node = document.getElementById('my-node');
   capturedImage: any;
   title: string = ""
+  loading: boolean;
   displayConfirm: boolean = false;
+  dateForm: FormGroup;
+  dtInicio: any;
+  dtFinal: any;
 
-  constructor(private categoryService: PendencyService,
+  constructor(
+    private categoryService: PendencyService,
     private router: Router,
-    private printerService: NgxPrinterService,
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    // private dateTipe: DatePipe,
     private messageService: MessageService
   ) { }
 
   ngOnInit() {
+    this.loading = true;
+    this.dateForm = this.formBuilder.group({
+      dtInicio: [this.formatDate(new Date(new Date().setDate(new Date().getDate() - 60)), 'input')],
+      dtFinal: [this.formatDate(new Date(), 'input')],
+    })
     this.cols = [
       { field: 'nome', header: 'NOME' },
       { field: 'descricao', header: 'DESCRIÇÃO' },
@@ -83,25 +80,30 @@ export class CategoryListComponent implements OnInit {
       { field: 'modified', header: 'MODIFICADO' },
       { field: 'status', header: 'STATUS' }
     ];
-
     this.loadTable();
   }
 
-  private loadTable() {
-    this.categoryService.getAll().subscribe(
-      pendencies => this.pendencies = pendencies.sort((a, b) => b.id - a.id),
+
+  loadTable() {
+    this.categoryService.getAll(this.dateForm.get('dtInicio').value, this.dateForm.get('dtFinal').value).subscribe(
+      pendencies => {
+        this.pendencies = pendencies.sort((a, b) => b.id - a.id);
+        this.loading = false;
+      },
       error => alert('Erro ao carregar a lista')).add(() => {
         if (this.route.snapshot.url[0] == undefined) {
+          this.loading = false;
           this.title = "Em aberto"
           this.show = true;
           this.pendencies = this.pendencies.filter(e => e.status == 'Aberto')
-          console.log('aberto')
         }
         else if (this.route.snapshot.url[0].path == "pendente") {
+          this.loading = false;
           this.title = "Ag. Fornecedor";
           this.pendencies = this.pendencies.filter(e => e.status == "Pendente")
         }
         else if (this.route.snapshot.url[0].path == "entregue") {
+          this.loading = false;
           this.title = "Entregue";
           this.pendencies = this.pendencies.filter(e => e.status == "Entregue")
         }
@@ -141,6 +143,25 @@ export class CategoryListComponent implements OnInit {
       });
   }
 
+  formatDate(date: any, type: string){
+    let fullDate = date;
+    let twoDigitMonth = fullDate.getMonth() + 1 + "";
+    if(twoDigitMonth == "13" ) twoDigitMonth = "1"
+    if (twoDigitMonth.length == 1){
+      twoDigitMonth = "0" + twoDigitMonth;
+    }
+    let twoDigitDate = fullDate.getDate() + "";
+    if (twoDigitDate.length == 1){
+      twoDigitDate = "0" + twoDigitDate;
+    }
+    if(type == 'input'){
+      let currentDate = fullDate.getFullYear() + "-" + twoDigitMonth + "-" + twoDigitDate;
+      return currentDate;
+    } else if( type == 'form'){
+      let currentDate = twoDigitDate + "/" + twoDigitMonth + "/" + fullDate.getFullYear();
+      return currentDate;
+    }
+  }
 
   print() {
     let printData = document.getElementById('printDiv').cloneNode(true);
@@ -209,22 +230,22 @@ export class CategoryListComponent implements OnInit {
 
   sendToPendSelecteds() {
     this.categoryService.multPendency(this.selected).subscribe(res => {
-      this.loadTable(); 
-      this.displayConfirm=false
+      this.loadTable();
+      this.displayConfirm = false
     });
   }
 
   paySelecteds() {
     this.categoryService.multPay(this.selected).subscribe(res => {
-      this.loadTable(); 
-      this.displayConfirm=false
+      this.loadTable();
+      this.displayConfirm = false
     });
   }
 
   sendToDeliveredSelecteds() {
     this.categoryService.multDelivery(this.selected).subscribe(res => {
-      this.loadTable(); 
-      this.displayConfirm=false
+      this.loadTable();
+      this.displayConfirm = false
     });
   }
 
