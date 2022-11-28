@@ -1,3 +1,4 @@
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -26,6 +27,7 @@ import { ReportsRoutingModule } from './reports-routing.module';
     ProgressSpinnerModule,
     FormsModule,
     ReportsRoutingModule,
+    AutoCompleteModule,
     DialogModule,
     CalendarModule,
     FileUploadModule,

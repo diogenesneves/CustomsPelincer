@@ -34,7 +34,15 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="cliente">Cliente</label>
-                        <input type="text" class="form-control" name="cliente" id="cliente" formControlName="cliente">
+                        <p-autoComplete [(ngModel)]="client" [suggestions]="filteredClients" (onSelect)="matchClient(client)"
+                        (completeMethod)="filterClients($event)" [size]="30" [minLength]="1"
+                        placeholder="Digite para pesquisar..." [dropdown]="true" formControlName="cliente">
+                        <ng-template let-client pTemplate="item">
+                          <div class="ui-helper-clearfix"  style="border-bottom:1px solid #D5D5D5">
+                            <div style="font-size:18px;float:left;margin:10px 10px 0 0">{{client}}</div>
+                          </div>
+                        </ng-template>
+                      </p-autoComplete>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="atendente">Atendente</label>

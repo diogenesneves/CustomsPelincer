@@ -1,3 +1,4 @@
+import { ClientService } from './../../clients/shared/client.service';
 import { ConsultantService } from './../../consultants/shared/consultant.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReportService } from './../shared/report.service';
@@ -23,15 +24,24 @@ export class ReportFormComponent implements OnInit {
   reportForm: FormGroup;
   results: any[] = [];
   loading: boolean;
+  customClient: any[] = [];
+  filteredClients: any[];
+  clientID: any = "";
+
 
   constructor(
     private reportService: ReportService, 
+    private clientService: ClientService,
     private consultantService: ConsultantService,
     private router: Router,
     private formBuilder: FormBuilder
     ) { }
 
   ngOnInit() {
+    this.clientService.getAll().subscribe(
+      clients => this.customClient = clients,
+      error => alert('Erro ao carregar a lista')
+    )
     this.consultantService.getAll().subscribe(
       res => this.consultants = res);
       this.reportForm = this.formBuilder.group({
@@ -47,6 +57,7 @@ export class ReportFormComponent implements OnInit {
 
   submitForm(){
     this.loading = true;
+    this.reportForm.get('cliente').setValue(this.clientID);
     if(this.reportForm.get('dtInicio').value == null || this.reportForm.get('dtFinal').value == null){
       this.loading = false;
       alert('É necessario inserir uma data inicial e uma data final.')
@@ -65,6 +76,29 @@ export class ReportFormComponent implements OnInit {
         },
         error => console.log(error)
       )
+    }
+  }
+
+  filterClients(event: any) {
+    this.filteredClients = [];
+    const val = event.query.toLowerCase();
+
+    for (let i = 0; i < this.customClient.length; i++) {
+      let client = this.customClient[i];
+      if (client.nome.toLowerCase().indexOf(val) !== -1 || !val) {
+        this.filteredClients.push(client.nome);
+      }
+    }
+  }
+
+  matchClient(data) {
+    var index, value;
+    for (index = 0; index < this.customClient.length; ++index) {
+      value = this.customClient[index].nome;
+      if (value === data) {
+        this.clientID = this.customClient[index].id
+        break;
+      }
     }
   }
 
